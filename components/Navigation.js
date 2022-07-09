@@ -5,7 +5,8 @@ const links = [
   { href: "/bitacora/bitacoras", label: "Caballos" },
   { href: "/bitacora/bita_events/bitaEventsAdmin", label: "Chivos" },
   { href: "/bitacora/bita_events/bitaEvents", label: "Conucos" },
-  { href: "/bitacora/tipo_events/", label: "AdminTipoEvents" },
+  { href: "/bitacora/bita_events/bitaEventsCard", label: "ListBitaEventsCard" },
+  { href: "/animals/bitaEventsCard", label: "ListAnimalCard" },
 ].map((link) => {
   link.key = `nav-link-${link.href}-${link.label}`;
   return link;

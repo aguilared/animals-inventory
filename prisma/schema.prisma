@@ -50,6 +50,8 @@ model Animal {
   owner_id       Int? 
   clase          Clase?    @relation(fields: [clase_id], references: [id]) //fk
   clase_id       Int?
+  tipopart       String?
+  hierro         String? 
   mother         String?
   info           String?
   created_at     DateTime  @default(now()) @map(name: "created_at")
