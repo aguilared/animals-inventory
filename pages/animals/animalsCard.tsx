@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
-import Container from "../../../components/Container";
-import useSWR from "swr";
+import Container from "../../components/Container";
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Card from "@material-ui/core/Card";
@@ -10,8 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import dayjs from "dayjs";
 import Interweave from "interweave";
 import axios from "axios";
-
-const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,17 +21,15 @@ const queryClient = new QueryClient({
   },
 });
 
-const convertDate1 = (date: any) => {
-  return dayjs(date).format("YYYY/MM/DD hh:mm");
+const convertDate = (date: any) => {
+  return dayjs(date).format("DD/MM/YYYY");
 };
 
-const BitaEventsCard: NextPage = () => {
+const AnimalsCard: NextPage = () => {
   const { status, data, error, isLoading, refetch } = useQuery(
-    "bitacoras",
+    "animals",
     async () => {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}bitacora/events`
-      );
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}animals/`);
       console.log("DATA1", res);
       return res.data;
     }
@@ -45,13 +40,11 @@ const BitaEventsCard: NextPage = () => {
     <Container>
       <QueryClientProvider client={queryClient}>
         <div className="container mx-auto px-20">
-          <h1 className="text-gray-600 text-5xl font-bold">
-            List Bitacoras Events.
-          </h1>
+          <h1 className="text-gray-600 text-5xl font-bold">List Animals</h1>
         </div>
         <div className="grid grid-cols-3 gap-4">
           {data ? (
-            data.map((event: any, key: any) => (
+            data.map((animal: any, key: any) => (
               <>
                 <div className="flex flex-col rounded-xl shadow-lg ">
                   <Card
@@ -62,46 +55,83 @@ const BitaEventsCard: NextPage = () => {
                     }}
                   >
                     <CardContent sx={{ flex: "1 0 auto" }}>
-                      <Typography variant="h6" component="div">
-                        BitacoraID: {event.bitacora_id},{" "}
+                      <Typography variant="h6" align="left" component="div">
+                        Animal ID: {animal.id},{" "}
                         <a
                           href={`/bitacora/bita_event/${encodeURIComponent(
-                            event.id
+                            animal.id
                           )}`}
                           target={"_blank"}
                           rel="noreferrer"
-                        >
-                          BitaEventID: {event.id}
-                          {",  "}
-                        </a>
-                        {convertDate1(event.event_date)}
+                        ></a>
                       </Typography>
-                      <Typography gutterBottom variant="h6" component="h2">
-                        Author: {event.bitacora.author.name}
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Nombre: {animal.name}
                       </Typography>
-                      <Typography gutterBottom variant="h6" component="h2">
-                        Tipo Event: {event.tipoEvent.description}
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Dueno: {animal.owner.name}
                       </Typography>
-                      <Typography gutterBottom variant="h6" component="h2">
-                        Event: {event.event.description}
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Nacimiento: {convertDate(animal.birthdate)}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Tipo animal: {animal.clase.description}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Madre: {animal.mother}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Hierro: {animal.hierro}
                       </Typography>
                       <Typography
                         variant="h6"
                         color="textSecondary"
+                        align="left"
                         component="div"
                       >
-                        <Interweave content={event.description} />
+                        <Interweave content={animal.info} />
                       </Typography>
                     </CardContent>
+
                     <a
-                      href={"/static/images/" + `${event.id}` + ".jpg"}
+                      href={"/static/images/" + `${animal.id}` + ".jpg"}
                       target={"_blank"}
                       rel="noreferrer"
                     >
                       <CardMedia
                         component="img"
                         sx={{ width: 30 }}
-                        image={"/static/images/" + `${event.id}` + ".jpg"}
+                        image={"/static/images/" + `${animal.id}` + ".jpg"}
                         alt="Live from space album cover"
                         onClick={() => console.log("CardActionArea clicked")}
                       />
@@ -122,4 +152,4 @@ const BitaEventsCard: NextPage = () => {
   );
 };
 
-export default BitaEventsCard;
+export default AnimalsCard;
