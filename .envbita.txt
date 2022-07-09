@@ -1,0 +1,11 @@
+DATABASE_URL="postgresql://cdccnqndgbqqle:0723b292970736b767a1093fb73e6860ec7fb885608deb2effb4e86a4d85495b@ec2-23-20-124-77.compute-1.amazonaws.com:5432/d9tei44jl8o9h6"
+NEXT_PUBLIC_DATABASE_URL"postgresql://cdccnqndgbqqle:0723b292970736b767a1093fb73e6860ec7fb885608deb2effb4e86a4d85495b@ec2-23-20-124-77.compute-1.amazonaws.com:5432/d9tei44jl8o9h6"
+
+DATABASE_URL1="postgresql://cdccnqndgbqqle:0723b292970736b767a1093fb73e6860ec7fb885608deb2effb4e86a4d85495b@localhost:5432/d9tei44jl8o9h6"
+NEXT_PUBLIC_DATABASE_URL1="postgresql://cdccnqndgbqqle:0723b292970736b767a1093fb73e6860ec7fb885608deb2effb4e86a4d85495b@localhost:5432/d9tei44jl8o9h6"
+
+NEXT_PUBLIC_API_URL="http://localhost:3000/api/"
+NEXT_PUBLIC_API_URL1="https://bita-personal-api.vercel.app/api/"
+NEXT_PUBLIC_API_URL11="http://192.168.0.30:3000/api/"
+NEXT_PUBLIC_API_URL111="http://192.168.0.99:3000/api/"
+
