@@ -34,7 +34,6 @@ const AnimalsCard: NextPage = () => {
       return res.data;
     }
   );
-  console.log("Data", data);
 
   return (
     <Container>

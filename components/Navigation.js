@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 const links = [
+  { href: "/animals/", label: "Admin" },
   { href: "/bitacora", label: "Ganados" },
   { href: "/bitacora/bitacoras", label: "Caballos" },
   { href: "/bitacora/bita_events/bitaEventsAdmin", label: "Chivos" },

@@ -54,6 +54,7 @@ model Animal {
   hierro         String? 
   mother         String?
   info           String?
+  alive          String?
   created_at     DateTime  @default(now()) @map(name: "created_at")
   updated_at     DateTime  @updatedAt @map(name: "updated_at")
   @@map(name: "animals")
