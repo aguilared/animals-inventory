@@ -173,11 +173,25 @@ const TipoEvents = (): JSX.Element => {
   };
 
   const onSubmit = async (e: BaseSyntheticEvent) => {
+    console.log("To Create", bitacoraAdd);
+
+    const parsedata = {
+      alive: bitacoraAdd.alive,
+      birthdate: bitacoraAdd.description,
+      clase_id: Number(bitacoraAdd.clase_id),
+      hierro: bitacoraAdd.hierro,
+      info: bitacoraAdd.info,
+      mother: bitacoraAdd.mother,
+      name: bitacoraAdd.name,
+      owner_id: Number(bitacoraAdd.owner_id),
+      tipopart: bitacoraAdd.name,
+      info: bitacoraAdd.info,
+    };
     try {
       await fetch("/api/animals/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bitacoraAdd),
+        body: JSON.stringify(parsedata),
       });
       refetch();
       setModalInsertar(false);
@@ -633,6 +647,24 @@ const TipoEvents = (): JSX.Element => {
                   onChange={(e) => handleOnChange("tipopart", e.target.value)}
                 />
                 {errors.tipopart && errors.tipopart}
+              </div>
+              <div className="md:w-11/12 px-3 mb-6 md:mb-0">
+                <label
+                  className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                  htmlFor="info"
+                >
+                  Viviendo
+                </label>
+                <input
+                  className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                  placeholder="alive"
+                  defaultValue={bitacoraAdd.alive}
+                  {...register("alive", {
+                    required: "Required",
+                  })}
+                  onChange={(e) => handleOnChange("alive", e.target.value)}
+                />
+                {errors.alive && errors.alive}
               </div>
               <div className="md:w-11/12 px-3 mb-6 md:mb-0">
                 <label
