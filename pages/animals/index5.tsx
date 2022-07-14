@@ -125,16 +125,8 @@ const Animals = (): JSX.Element => {
   });
   const [bitacoraSeleccionada2, setBitacoraSeleccionada2] = useState({
     id: "",
-    alive: "",
-    birthdate: "",
-    clase_id: "",
-    hierro: "",
-    info: "",
-    mother: "",
-    name: "",
-    owner_id: "",
-    tipopart: "",
-    info: "",
+    description: "",
+    updated_at: "",
   });
 
   const seleccionarBitacora = (elemento, caso) => {
@@ -228,25 +220,17 @@ const Animals = (): JSX.Element => {
   };
 
   const onSubmitE = async (e: BaseSyntheticEvent) => {
-    console.log("FormData", bitacoraE);
-    const parsedata = {
-      alive: bitacoraE.alive,
-      birthdate: bitacoraE.birthdate,
-      clase_id: Number(bitacoraE.clase_id),
-      hierro: bitacoraE.hierro,
-      id: Number(bitacoraE.id),
-      info: bitacoraE.info,
-      mother: bitacoraE.mother,
-      name: bitacoraE.name,
-      owner_id: Number(bitacoraE.owner_id),
-      tipopart: bitacoraE.tipopart,
+    const dataE = {
+      id: bitacoraE.id,
+      description: bitacoraE.description,
+      updated_at: bitacoraE.updated_at,
     };
     try {
       //await editBitacora(data);
-      const result = await fetch("/api/animals/update", {
+      const result = await fetch("/api/tipoEvents/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsedata),
+        body: JSON.stringify(dataE),
       });
       refetch();
       setModalEditar(false);
@@ -673,20 +657,96 @@ const Animals = (): JSX.Element => {
             Tipo Event ID: {bitacoraSeleccionada2 && bitacoraSeleccionada2.id}
           </ModalHeader>
           <ModalBody>
-            <AnimalEdit
-              bitacoraSeleccionada2={bitacoraSeleccionada2}
-              seleccionarBitacora2={seleccionarBitacora2}
-              onSubmitE={onSubmitE}
-              handleOnChangeE={handleOnChangeE}
-              handleOnChange={handleOnChange}
-              owners={owners}
-              clases={clases}
-              eventsId={eventId}
-              setEventId={setEventId}
-              handleOnChange={handleOnChange}
-            />
-          </ModalBody>
+            <form
+              name="editForm"
+              className="w-full max-w-lg  bg-gray-400 shadow-md rounded"
+              onSubmit={handleSubmit(onSubmitE)}
+            >
+              <div className="md:w-1/2 px-3 mb-6 md:mb-1">
+                <label
+                  className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-1"
+                  htmlFor="description"
+                >
+                  Tipo Event
+                </label>
+                <input
+                  className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                  placeholder="TipoEvento"
+                  defaultValue={
+                    bitacoraSeleccionada2 && bitacoraSeleccionada2.description
+                  }
+                  {...register("description", {
+                    required: true,
+                  })}
+                  onChange={(e) =>
+                    handleOnChangeE("description", e.target.value)
+                  }
+                />
+                {errors.description && <p>This is required</p>}
+              </div>
 
+              <div className="md:w-1/2 px-3 mb-6 md:mb-1">
+                <label
+                  className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-1"
+                  htmlFor="updated_at"
+                >
+                  Fecha Tipo Event
+                </label>
+                <input
+                  className="appearance-none block w-full border border-grey-lighter rounded py-3 px-4"
+                  type="text"
+                  placeholder="fechaUpdated"
+                  defaultValue={
+                    bitacoraSeleccionada2 && bitacoraSeleccionada2.updated_at
+                  }
+                  {...register("updated_at", {
+                    required: true,
+                  })}
+                  onChange={(e) =>
+                    handleOnChangeE("updated_at", e.target.value)
+                  }
+                />
+                {errors.updated_at && errors.updated_at.updated_at}
+              </div>
+              <div className="md:w-1/2  px-3 mb-6 md:mb-1">
+                <button
+                  type="reset"
+                  onClick={() => reset()}
+                  className="btn btn-secondary"
+                >
+                  Reset
+                </button>
+              </div>
+              <input
+                style={{ display: "block", marginTop: 20 }}
+                type="reset"
+                value="Standard Reset Field Values"
+              />
+
+              <div className="invisible md:invisible md:w-1/2 px-3 mb-6 md:mb-0">
+                <label
+                  className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                  htmlFor="id"
+                >
+                  ID
+                </label>
+                <input
+                  className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                  type="number"
+                  defaultValue={
+                    bitacoraSeleccionada2 && bitacoraSeleccionada2.id
+                  }
+                  {...register("id", {
+                    required: "Required",
+                    minLength: 1,
+                    maxLength: 9,
+                  })}
+                  onChange={(e) => handleOnChangeE("id", e.target.value)}
+                />
+                {errors.id && errors.id.id}
+              </div>
+            </form>
+          </ModalBody>
           <ModalFooter>
             <button className="btn btn-danger" onClick={() => onSubmitE()}>
               Sí
