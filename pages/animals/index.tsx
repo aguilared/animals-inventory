@@ -89,15 +89,15 @@ const Animals = (): JSX.Element => {
 
   const [bitacoraE, setBitacoraE] = useState({
     alive: "",
-    birthdate: "",
+    birthdate: convertDate1(dateBitacora),
     clase_id: 1,
     hierro: "",
-    info: "",
+    id: "",
+    info: "Color ..., Cachos...",
     mother: "",
     name: "",
     owner_id: 1,
     tipopart: "",
-    info: "Color ..., Cachos...",
     updated_at: "2022-01-03 11:07",
   });
 
@@ -134,7 +134,6 @@ const Animals = (): JSX.Element => {
     name: "",
     owner_id: "",
     tipopart: "",
-    info: "",
   });
 
   const seleccionarBitacora = (elemento, caso) => {
