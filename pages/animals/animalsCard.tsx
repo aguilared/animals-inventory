@@ -113,6 +113,14 @@ const AnimalsCard: NextPage = () => {
                         Hierro: {animal.hierro}
                       </Typography>
                       <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Date update: {convertDate(animal.updated_at)}
+                      </Typography>
+                      <Typography
                         variant="h6"
                         color="textSecondary"
                         align="left"

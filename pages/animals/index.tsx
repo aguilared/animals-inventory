@@ -93,7 +93,7 @@ const Animals = (): JSX.Element => {
     clase_id: 1,
     hierro: "",
     id: "",
-    info: "Color ..., Cachos...",
+    info: "",
     mother: "",
     name: "",
     owner_id: 1,
@@ -358,6 +358,7 @@ const Animals = (): JSX.Element => {
                 key={bitacora.id}
               >
                 <div className="w-4/5 inline-block text-gray-700 text-left px-1 py-0 m-0">
+                  ID= {bitacora.id} &nbsp;
                   <IconButton
                     onClick={() => seleccionarBitacora1(bitacora, "Mostrar")}
                   >
@@ -376,10 +377,10 @@ const Animals = (): JSX.Element => {
                       height="88"
                     />
                   </a>
-                  ID= {bitacora.id} &nbsp; Nombre= {bitacora.name}, &nbsp;
-                  Dueno=
+                  {bitacora.clase.description}&nbsp;
+                  {bitacora.name}, &nbsp; Dueno=
                   {bitacora.owner.name}, &nbsp; Nacimiento=
-                  {convertDate(bitacora.birthdate)} &nbsp;
+                  {convertDate(bitacora.birthdate)} &nbsp;{" "}
                 </div>
 
                 <div className="inline-block text-gray-700 text-right px-1 py-1 m-0">
@@ -669,7 +670,7 @@ const Animals = (): JSX.Element => {
 
         <Modal isOpen={modalEditar} toggle={toggleEditar}>
           <ModalHeader toggle={toggleEditar}>
-            Tipo Event ID: {bitacoraSeleccionada2 && bitacoraSeleccionada2.id}
+            Animal ID: {bitacoraSeleccionada2 && bitacoraSeleccionada2.id}
           </ModalHeader>
           <ModalBody>
             <AnimalEdit
