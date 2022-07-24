@@ -143,7 +143,6 @@ const AnimalEdit = (props: any): JSX.Element => {
                 name={name}
                 onChange={(val) => {
                   onChange(val.value);
-                  setOwners(val.value);
                   handleOnChangeE("owner_id", val.value);
                 }}
               />
