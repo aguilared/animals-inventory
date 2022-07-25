@@ -5,6 +5,7 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  //  console.log("DataToUpdate", req.body);
   const animal = await prisma.animal.update({
     where: { id: req.body.id },
     data: req.body,

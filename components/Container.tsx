@@ -3,7 +3,7 @@ type AuxProps = {
 };
 // function Container({ children }: Props) {
 const Container = ({ children }: AuxProps): JSX.Element => (
-  <div className="container items-center m-auto px-1">{children}</div>
+  <div className="items-center m-auto px-1">{children}</div>
 );
 
 export default Container;

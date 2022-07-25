@@ -114,7 +114,15 @@ const Animals = (): JSX.Element => {
 
   const [bitacoraSeleccionada, setBitacoraSeleccionada] = useState({
     id: "",
-    description: "",
+    alive: "",
+    birthdate: "",
+    clase_id: "",
+    hierro: "",
+    info: "",
+    mother: "",
+    name: "",
+    owner_id: "",
+    tipopart: "",
     updated_at: "",
   });
   // to viewBitacora
@@ -134,6 +142,7 @@ const Animals = (): JSX.Element => {
     name: "",
     owner_id: "",
     tipopart: "",
+    updated_at: "",
   });
 
   const seleccionarBitacora = (elemento, caso) => {
@@ -145,7 +154,7 @@ const Animals = (): JSX.Element => {
   // to viewHist
   const seleccionarBitacora1 = (elemento, caso) => {
     setBitacoraSeleccionada1(elemento);
-    console.log("ELEMENTO", elemento);
+    console.log("ELEMENTOTO VIEW", elemento);
     console.log("CASO", caso);
     caso === "Editar" ? setModalEditar(true) : setModalViewHist(true);
   };
@@ -155,9 +164,16 @@ const Animals = (): JSX.Element => {
     console.log("ELEMENTO", elemento);
     setBitacoraE({
       ...bitacoraE,
+      birthdate: elemento.birthdate,
+      clase_id: elemento.clase_id,
+      hierro: elemento.hierro,
       id: elemento.id,
-      description: elemento.description,
       updated_at: elemento.updated_at,
+      info: elemento.info,
+      mother: elemento.mother,
+      name: elemento.name,
+      owner_id: elemento.owner_id,
+      tipopart: elemento.tipopart,
     });
     console.log("BITACORAE", bitacoraE);
     caso === "Editar" ? setModalEditar(true) : setModalViewHist(true);
@@ -227,7 +243,7 @@ const Animals = (): JSX.Element => {
   };
 
   const onSubmitE = async (e: BaseSyntheticEvent) => {
-    console.log("FormData", bitacoraE);
+    console.log("FormDataEdit", bitacoraE);
     const parsedata = {
       alive: bitacoraE.alive,
       birthdate: bitacoraE.birthdate,
@@ -515,7 +531,7 @@ const Animals = (): JSX.Element => {
                 <Controller
                   name="clase_id"
                   control={control}
-                  rules={{ validate }}
+                  rules={{ required: true }}
                   render={({ field: { onChange, value, name, ref } }) => {
                     const handleSelectChange = (
                       selectedOption: tipo_event_id | null
@@ -551,7 +567,7 @@ const Animals = (): JSX.Element => {
                 <Controller
                   name="owner_id"
                   control={control}
-                  rules={{ validate }}
+                  rules={{ required: true }}
                   render={({ field: { onChange, value, name, ref } }) => {
                     //console.log("CurrentSelection", currentSelection);
                     const handleSelectChange = (
@@ -675,15 +691,10 @@ const Animals = (): JSX.Element => {
           <ModalBody>
             <AnimalEdit
               bitacoraSeleccionada2={bitacoraSeleccionada2}
-              seleccionarBitacora2={seleccionarBitacora2}
               onSubmitE={onSubmitE}
               handleOnChangeE={handleOnChangeE}
-              handleOnChange={handleOnChange}
               owners={owners}
               clases={clases}
-              eventsId={eventId}
-              setEventId={setEventId}
-              handleOnChange={handleOnChange}
             />
           </ModalBody>
 

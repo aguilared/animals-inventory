@@ -3,9 +3,17 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import Select from "react-select";
 
 type Inputs = {
+  alive: string;
+  birthdate: string;
+  clase_id: number;
+  hierro: string;
   id: number;
-  author_id: number;
-  bitacora_date: string;
+  info: string;
+  mother: string;
+  name: string;
+  owner_id: number;
+  tipopart: string;
+  updated_at: string;
 };
 
 const AnimalEdit = (props: any): JSX.Element => {
@@ -13,12 +21,9 @@ const AnimalEdit = (props: any): JSX.Element => {
     bitacoraSeleccionada2,
     onSubmitE,
     handleOnChangeE,
-    handleOnChange,
     clases,
     owners,
     eventsId,
-    setOwners,
-    setClases,
   } = props;
   console.log("bitacoraSeleccionada2", bitacoraSeleccionada2);
   console.log("Clases", clases);
@@ -92,6 +97,7 @@ const AnimalEdit = (props: any): JSX.Element => {
         <Controller
           name="clase_id"
           control={control}
+          rules={{ required: true }}
           render={({ field: { onChange, value, name, ref } }) => {
             const currentSelection = clases.find(
               (c) => c.value === bitacoraSeleccionada2.clase_id
@@ -114,7 +120,11 @@ const AnimalEdit = (props: any): JSX.Element => {
             );
           }}
         />
-        {errors.clase_id && <p>This field is required</p>}{" "}
+        {errors.clase_id && (
+          <p className="text-red-600 text-1xl font-bold">
+            This field is required
+          </p>
+        )}
       </div>
 
       <div className="md:w-11/12 px-3 mb-6 md:mb-0">
@@ -127,6 +137,7 @@ const AnimalEdit = (props: any): JSX.Element => {
         <Controller
           name="owner_id"
           control={control}
+          rules={{ required: true }}
           render={({ field: { onChange, value, name, ref } }) => {
             const currentSelection = owners.find(
               (c) => c.value === bitacoraSeleccionada2.owner_id
@@ -149,7 +160,11 @@ const AnimalEdit = (props: any): JSX.Element => {
             );
           }}
         />
-        {errors.owner_id && <p>This field is required</p>}{" "}
+        {errors.owner_id && (
+          <p className="text-red-600 text-1xl font-bold">
+            This field is required
+          </p>
+        )}
       </div>
 
       <div className="md:w-11/12 px-3 mb-6 md:mb-0">
@@ -168,7 +183,11 @@ const AnimalEdit = (props: any): JSX.Element => {
           })}
           onChange={(e) => handleOnChangeE("mother", e.target.value)}
         />
-        {errors.mother && errors.mother}
+        {errors.mother && (
+          <p className="text-red-600 text-1xl font-bold">
+            This field is required
+          </p>
+        )}
       </div>
 
       <div className="md:w-11/12 px-3 mb-6 md:mb-0">
@@ -187,7 +206,11 @@ const AnimalEdit = (props: any): JSX.Element => {
           })}
           onChange={(e) => handleOnChangeE("hierro", e.target.value)}
         />
-        {errors.hierro && errors.hierro}
+        {errors.hierro && (
+          <p className="text-red-600 text-1xl font-bold">
+            This field is required
+          </p>
+        )}
       </div>
 
       <div className="md:w-11/12 px-3 mb-6 md:mb-0">
@@ -206,7 +229,11 @@ const AnimalEdit = (props: any): JSX.Element => {
           })}
           onChange={(e) => handleOnChangeE("tipopart", e.target.value)}
         />
-        {errors.tipopart && errors.tipopart}
+        {errors.tipopart && (
+          <p className="text-red-600 text-1xl font-bold">
+            This field is required
+          </p>
+        )}
       </div>
 
       <div className="md:w-11/12 px-3 mb-6 md:mb-0">
