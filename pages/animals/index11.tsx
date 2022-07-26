@@ -34,7 +34,7 @@ type Inputs = {
   updated_at: string;
 };
 
-const dateAnimal = new Date();
+const dateBitacora = new Date();
 
 const convertDate = (dateTo: any) => {
   const d = dayjs(dateTo).format("DD-MM-YYYY");
@@ -75,9 +75,9 @@ const Animals = (): JSX.Element => {
     console.log("eleccionado", selected);
   };
 
-  const [animalAdd, setAnimalAdd] = useState({
+  const [bitacoraAdd, setBitacoraAdd] = useState({
     alive: "Si",
-    birthdate: convertDate1(dateAnimal),
+    birthdate: convertDate1(dateBitacora),
     clase_id: 1,
     hierro: "Si",
     info: "Hierro ... y .. Color ..., Cachos. ...",
@@ -87,9 +87,9 @@ const Animals = (): JSX.Element => {
     tipopart: "Normal",
   });
 
-  const [animalE, setAnimalE] = useState({
+  const [bitacoraE, setBitacoraE] = useState({
     alive: "",
-    birthdate: convertDate1(dateAnimal),
+    birthdate: convertDate1(dateBitacora),
     clase_id: 1,
     hierro: "",
     id: "",
@@ -112,7 +112,7 @@ const Animals = (): JSX.Element => {
   const toggleEliminar = () => setModalEliminar(!modalEliminar);
   const toggleEditar = () => setModalEditar(!modalEditar);
 
-  const [animalSeleccionada, setAnimalSeleccionada] = useState({
+  const [bitacoraSeleccionada, setBitacoraSeleccionada] = useState({
     id: "",
     alive: "",
     birthdate: "",
@@ -125,13 +125,13 @@ const Animals = (): JSX.Element => {
     tipopart: "",
     updated_at: "",
   });
-  // to viewAnimal
-  const [animalSeleccionada1, setAnimalSeleccionada1] = useState({
+  // to viewBitacora
+  const [bitacoraSeleccionada1, setBitacoraSeleccionada1] = useState({
     id: "",
     description: "",
     updated_at: "",
   });
-  const [animalSeleccionada2, setAnimalSeleccionada2] = useState({
+  const [bitacoraSeleccionada2, setBitacoraSeleccionada2] = useState({
     id: "",
     alive: "",
     birthdate: "",
@@ -145,25 +145,25 @@ const Animals = (): JSX.Element => {
     updated_at: "",
   });
 
-  const seleccionarAnimal = (elemento, caso) => {
-    setAnimalSeleccionada(elemento);
+  const seleccionarBitacora = (elemento, caso) => {
+    setBitacoraSeleccionada(elemento);
     console.log("ELEMENTO Eliminar o Editar", elemento);
     console.log("CASO Eliminar o Editar", caso);
     caso === "Editar" ? setModalEditar(true) : setModalEliminar(true);
   };
   // to viewHist
-  const seleccionarAnimal1 = (elemento, caso) => {
-    setAnimalSeleccionada1(elemento);
+  const seleccionarBitacora1 = (elemento, caso) => {
+    setBitacoraSeleccionada1(elemento);
     console.log("ELEMENTOTO VIEW", elemento);
     console.log("CASO", caso);
     caso === "Editar" ? setModalEditar(true) : setModalViewHist(true);
   };
   // to editar
-  const seleccionarAnimal2 = (elemento, caso) => {
-    setAnimalSeleccionada2(elemento);
+  const seleccionarBitacora2 = (elemento, caso) => {
+    setBitacoraSeleccionada2(elemento);
     console.log("ELEMENTO", elemento);
-    setAnimalE({
-      ...animalE,
+    setBitacoraE({
+      ...bitacoraE,
       birthdate: elemento.birthdate,
       clase_id: elemento.clase_id,
       hierro: elemento.hierro,
@@ -175,7 +175,7 @@ const Animals = (): JSX.Element => {
       owner_id: elemento.owner_id,
       tipopart: elemento.tipopart,
     });
-    console.log("AnimalE", animalE);
+    console.log("BITACORAE", bitacoraE);
     caso === "Editar" ? setModalEditar(true) : setModalViewHist(true);
   };
 
@@ -184,24 +184,24 @@ const Animals = (): JSX.Element => {
   };
 
   const abrirModalSearchs = () => {
-    console.log("el search animal", animal);
+    console.log("el search bitacora", bitacora);
     setModalSearchs(true);
   };
 
   const handleSearchOnChange = (e) => {
     console.log("value", e.target.value);
-    setAnimalAdd(e.target.value);
+    setBitacoraAdd(e.target.value);
   };
 
-  const handleOnChange = (animalKey, value) => {
+  const handleOnChange = (bitacoraKey, value) => {
     console.log("valueOnChangeAdd", value);
-    setAnimalAdd({ ...animalAdd, [animalKey]: value });
-    console.log("SETanimalAdd", animalAdd);
+    setBitacoraAdd({ ...bitacoraAdd, [bitacoraKey]: value });
+    console.log("SETbitacoraAdd", bitacoraAdd);
   };
-  const handleOnChangeE = (animalKey, value) => {
+  const handleOnChangeE = (bitacoraKey, value) => {
     console.log("valueOnChangeEditar", value);
-    setAnimalE({ ...animalE, [animalKey]: value });
-    console.log("animalOnchageE", animalE);
+    setBitacoraE({ ...bitacoraE, [bitacoraKey]: value });
+    console.log("bitacoraOnchageE", bitacoraE);
   };
   const resetForm = () => {
     reset(); // will reset the entire form :)
@@ -217,17 +217,17 @@ const Animals = (): JSX.Element => {
   };
 
   const onSubmit = async (e: BaseSyntheticEvent) => {
-    console.log("FormData", animalAdd);
+    console.log("FormData", bitacoraAdd);
     const parsedata = {
-      alive: animalAdd.alive,
-      birthdate: animalAdd.birthdate,
-      clase_id: Number(animalAdd.clase_id),
-      hierro: animalAdd.hierro,
-      info: animalAdd.info,
-      mother: animalAdd.mother,
-      name: animalAdd.name,
-      owner_id: Number(animalAdd.owner_id),
-      tipopart: animalAdd.tipopart,
+      alive: bitacoraAdd.alive,
+      birthdate: bitacoraAdd.birthdate,
+      clase_id: Number(bitacoraAdd.clase_id),
+      hierro: bitacoraAdd.hierro,
+      info: bitacoraAdd.info,
+      mother: bitacoraAdd.mother,
+      name: bitacoraAdd.name,
+      owner_id: Number(bitacoraAdd.owner_id),
+      tipopart: bitacoraAdd.tipopart,
     };
     try {
       await fetch("/api/animals/create", {
@@ -243,21 +243,21 @@ const Animals = (): JSX.Element => {
   };
 
   const onSubmitE = async (e: BaseSyntheticEvent) => {
-    console.log("FormDataEdit", animalE);
+    console.log("FormDataEdit", bitacoraE);
     const parsedata = {
-      alive: animalE.alive,
-      birthdate: animalE.birthdate,
-      clase_id: Number(animalE.clase_id),
-      hierro: animalE.hierro,
-      id: Number(animalE.id),
-      info: animalE.info,
-      mother: animalE.mother,
-      name: animalE.name,
-      owner_id: Number(animalE.owner_id),
-      tipopart: animalE.tipopart,
+      alive: bitacoraE.alive,
+      birthdate: bitacoraE.birthdate,
+      clase_id: Number(bitacoraE.clase_id),
+      hierro: bitacoraE.hierro,
+      id: Number(bitacoraE.id),
+      info: bitacoraE.info,
+      mother: bitacoraE.mother,
+      name: bitacoraE.name,
+      owner_id: Number(bitacoraE.owner_id),
+      tipopart: bitacoraE.tipopart,
     };
     try {
-      //await editAnimal(data);
+      //await editBitacora(data);
       const result = await fetch("/api/animals/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -274,9 +274,9 @@ const Animals = (): JSX.Element => {
     try {
       console.log("Entra a Borrar");
       const result = await fetch(
-        "/api/animals/delete/" + animalSeleccionada.id
+        "/api/animals/delete/" + bitacoraSeleccionada.id
       );
-      // await removeAnimal(animalSeleccionada.id);
+      // await removeBitacora(bitacoraSeleccionada.id);
       refetch();
       setModalEliminar(false);
     } catch (error) {
@@ -284,10 +284,10 @@ const Animals = (): JSX.Element => {
     }
   };
 
-  const ButtonAddAnimal = forwardRef(({ onClick, href }, ref) => (
+  const ButtonAddBitacora = forwardRef(({ onClick, href }, ref) => (
     <button
       className="bg-blue-300 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded inline-flex items-center"
-      // onClick={handleClickAddAnimal}
+      // onClick={handleClickAddBitacora}
       onClick={() => abrirModalInsertar()}
       ref={ref}
     >
@@ -359,7 +359,7 @@ const Animals = (): JSX.Element => {
             </form>
           </div>
           <div className="flex-grow text-right px-3 py-1 m-2">
-            <ButtonAddAnimal />
+            <ButtonAddBitacora />
           </div>
         </div>
         {isLoading ? (
@@ -368,40 +368,40 @@ const Animals = (): JSX.Element => {
           </div>
         ) : null}
         {data && data.length > 0
-          ? data.map((animal: any) => (
+          ? data.map((bitacora: any) => (
               <div
                 className="flex rounded items-left bg-gray-100 mb-1 shadow"
-                key={animal.id}
+                key={bitacora.id}
               >
                 <div className="w-4/5 inline-block text-gray-700 text-left px-1 py-0 m-0">
-                  ID= {animal.id} &nbsp;
+                  ID= {bitacora.id} &nbsp;
                   <IconButton
-                    onClick={() => seleccionarAnimal1(animal, "Mostrar")}
+                    onClick={() => seleccionarBitacora1(bitacora, "Mostrar")}
                   >
                     <StreetviewRoundedIcon fontSize="small" />
                   </IconButton>{" "}
                   <a
-                    href={"/static/images/" + `${animal.id}` + ".jpg"}
+                    href={"/static/images/" + `${bitacora.id}` + ".jpg"}
                     target={"_blank"}
                     rel="noreferrer"
                   >
                     <Image
-                      onClick={() => seleccionarAnimal1(animal, "Mostrar")}
-                      src={"/static/images/" + `${animal.id}` + ".jpg"}
+                      onClick={() => seleccionarBitacora1(bitacora, "Mostrar")}
+                      src={"/static/images/" + `${bitacora.id}` + ".jpg"}
                       alt="my Image"
                       width="112"
                       height="88"
                     />
                   </a>
-                  {animal.clase.description}&nbsp;
-                  {animal.name}, &nbsp; Dueno=
-                  {animal.owner.name}, &nbsp; Nacimiento=
-                  {convertDate(animal.birthdate)} &nbsp;{" "}
+                  {bitacora.clase.description}&nbsp;
+                  {bitacora.name}, &nbsp; Dueno=
+                  {bitacora.owner.name}, &nbsp; Nacimiento=
+                  {convertDate(bitacora.birthdate)} &nbsp;{" "}
                 </div>
 
                 <div className="inline-block text-gray-700 text-right px-1 py-1 m-0">
                   <button
-                    onClick={() => seleccionarAnimal(animal, "Eliminar")}
+                    onClick={() => seleccionarBitacora(bitacora, "Eliminar")}
                     className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-1 px-0 mr-1 rounded-full inline-flex items-center"
                   >
                     <svg
@@ -426,7 +426,7 @@ const Animals = (): JSX.Element => {
 
                 <div className="inline-block text-gray-700 text-right px-1 py-1 m-0">
                   <button
-                    onClick={() => seleccionarAnimal2(animal, "Editar")}
+                    onClick={() => seleccionarBitacora2(bitacora, "Editar")}
                     className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-1 px-0 mr-1 rounded-full inline-flex items-center"
                   >
                     <svg
@@ -445,6 +445,32 @@ const Animals = (): JSX.Element => {
                       <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                     </svg>
                   </button>
+                </div>
+
+                <div className="w-1/5 inline-block text-gray-700 text-right px-1 py-1 m-0">
+                  <Link
+                    href={`/bitacora/bita_events/${encodeURIComponent(
+                      bitacora.id
+                    )}`}
+                    passHref
+                  >
+                    <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold mr-1 py-1 px-1 rounded-full inline-flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 0 24 24"
+                        width="24px"
+                        fill="#000000"
+                      >
+                        <path
+                          clipRule="evenodd"
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        />
+                        <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
+                      </svg>
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))
@@ -467,7 +493,7 @@ const Animals = (): JSX.Element => {
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="Name"
-                  defaultValue={animalAdd.name}
+                  defaultValue={bitacoraAdd.name}
                   {...register("name", {
                     required: "Required",
                   })}
@@ -486,7 +512,7 @@ const Animals = (): JSX.Element => {
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="birthdate"
-                  defaultValue={animalAdd.birthdate}
+                  defaultValue={bitacoraAdd.birthdate}
                   {...register("birthdate", {
                     required: "Required",
                   })}
@@ -578,7 +604,7 @@ const Animals = (): JSX.Element => {
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="mother"
-                  defaultValue={animalAdd.mother}
+                  defaultValue={bitacoraAdd.mother}
                   {...register("mother", {
                     required: "Required",
                   })}
@@ -597,7 +623,7 @@ const Animals = (): JSX.Element => {
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="hierro"
-                  defaultValue={animalAdd.hierro}
+                  defaultValue={bitacoraAdd.hierro}
                   {...register("hierro", {
                     required: "Required",
                   })}
@@ -616,7 +642,7 @@ const Animals = (): JSX.Element => {
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="tipopart"
-                  defaultValue={animalAdd.tipopart}
+                  defaultValue={bitacoraAdd.tipopart}
                   {...register("tipopart", {
                     required: "Required",
                   })}
@@ -635,7 +661,7 @@ const Animals = (): JSX.Element => {
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="info"
-                  defaultValue={animalAdd.info}
+                  defaultValue={bitacoraAdd.info}
                   {...register("info", {
                     required: "Required",
                   })}
@@ -660,11 +686,11 @@ const Animals = (): JSX.Element => {
 
         <Modal isOpen={modalEditar} toggle={toggleEditar}>
           <ModalHeader toggle={toggleEditar}>
-            Animal ID: {animalSeleccionada2 && animalSeleccionada2.id}
+            Animal ID: {bitacoraSeleccionada2 && bitacoraSeleccionada2.id}
           </ModalHeader>
           <ModalBody>
             <AnimalEdit
-              animalSeleccionada2={animalSeleccionada2}
+              bitacoraSeleccionada2={bitacoraSeleccionada2}
               onSubmitE={onSubmitE}
               handleOnChangeE={handleOnChangeE}
               owners={owners}
@@ -704,12 +730,12 @@ const Animals = (): JSX.Element => {
           <ModalHeader toggle={toggleEliminar}>Eliminar tipoEvent</ModalHeader>
           <ModalBody>
             Estás Seguro que deseas eliminar la tipoEvent{" "}
-            {animalSeleccionada && animalSeleccionada.id}
+            {bitacoraSeleccionada && bitacoraSeleccionada.id}
           </ModalBody>
           <ModalFooter>
             <button
               className="btn btn-danger"
-              onClick={() => eliminar(animalSeleccionada.id)}
+              onClick={() => eliminar(bitacoraSeleccionada.id)}
             >
               Sí
             </button>

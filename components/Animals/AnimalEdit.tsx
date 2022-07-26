@@ -18,14 +18,14 @@ type Inputs = {
 
 const AnimalEdit = (props: any): JSX.Element => {
   const {
-    bitacoraSeleccionada2,
+    animalSeleccionada2,
     onSubmitE,
     handleOnChangeE,
     clases,
     owners,
     eventsId,
   } = props;
-  console.log("bitacoraSeleccionada2", bitacoraSeleccionada2);
+  console.log("animalSeleccionada2", animalSeleccionada2);
   console.log("Clases", clases);
   console.log("EventsId", eventsId);
   console.log("Owners", owners);
@@ -57,7 +57,7 @@ const AnimalEdit = (props: any): JSX.Element => {
         <input
           className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
           placeholder="Name"
-          defaultValue={bitacoraSeleccionada2 && bitacoraSeleccionada2.name}
+          defaultValue={animalSeleccionada2 && animalSeleccionada2.name}
           {...register("name", {
             required: "Required",
           })}
@@ -76,9 +76,7 @@ const AnimalEdit = (props: any): JSX.Element => {
         <input
           className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
           placeholder="birthdate"
-          defaultValue={
-            bitacoraSeleccionada2 && bitacoraSeleccionada2.birthdate
-          }
+          defaultValue={animalSeleccionada2 && animalSeleccionada2.birthdate}
           {...register("birthdate", {
             required: "Required",
           })}
@@ -100,7 +98,7 @@ const AnimalEdit = (props: any): JSX.Element => {
           rules={{ required: true }}
           render={({ field: { onChange, value, name, ref } }) => {
             const currentSelection = clases.find(
-              (c) => c.value === bitacoraSeleccionada2.clase_id
+              (c) => c.value === animalSeleccionada2.clase_id
             );
             console.log("CurrentSelection", currentSelection);
             const handleSelectChange = (selectedOption: clase_id | null) => {
@@ -140,7 +138,7 @@ const AnimalEdit = (props: any): JSX.Element => {
           rules={{ required: true }}
           render={({ field: { onChange, value, name, ref } }) => {
             const currentSelection = owners.find(
-              (c) => c.value === bitacoraSeleccionada2.owner_id
+              (c) => c.value === animalSeleccionada2.owner_id
             );
             console.log("CurrentSelection", currentSelection);
             const handleSelectChange = (selectedOption: owner_id | null) => {
@@ -177,7 +175,7 @@ const AnimalEdit = (props: any): JSX.Element => {
         <input
           className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
           placeholder="mother"
-          defaultValue={bitacoraSeleccionada2 && bitacoraSeleccionada2.mother}
+          defaultValue={animalSeleccionada2 && animalSeleccionada2.mother}
           {...register("mother", {
             required: "Required",
           })}
@@ -200,7 +198,7 @@ const AnimalEdit = (props: any): JSX.Element => {
         <input
           className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
           placeholder="hierro"
-          defaultValue={bitacoraSeleccionada2 && bitacoraSeleccionada2.hierro}
+          defaultValue={animalSeleccionada2 && animalSeleccionada2.hierro}
           {...register("hierro", {
             required: "Required",
           })}
@@ -223,7 +221,7 @@ const AnimalEdit = (props: any): JSX.Element => {
         <input
           className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
           placeholder="tipopart"
-          defaultValue={bitacoraSeleccionada2 && bitacoraSeleccionada2.tipopart}
+          defaultValue={animalSeleccionada2 && animalSeleccionada2.tipopart}
           {...register("tipopart", {
             required: "Required",
           })}
@@ -246,7 +244,7 @@ const AnimalEdit = (props: any): JSX.Element => {
         <input
           className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
           placeholder="info"
-          defaultValue={bitacoraSeleccionada2 && bitacoraSeleccionada2.info}
+          defaultValue={animalSeleccionada2 && animalSeleccionada2.info}
           {...register("info", {
             required: "Required",
           })}
@@ -256,9 +254,7 @@ const AnimalEdit = (props: any): JSX.Element => {
         <input
           type="hidden"
           name="id"
-          defaultValue={
-            bitacoraSeleccionada2 && bitacoraSeleccionada2.bitacora_id
-          }
+          defaultValue={animalSeleccionada2 && animalSeleccionada2.animal_id}
           {...register("id", {
             required: "Required",
             minLength: 3,
