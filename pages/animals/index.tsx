@@ -29,8 +29,16 @@ const queryClient = new QueryClient({
 });
 
 type Inputs = {
+  alive: string;
+  birthdate: string;
+  clase_id: number;
+  hierro: string;
   id: number;
-  description: string;
+  info: string;
+  mother: string;
+  name: string;
+  owner_id: number;
+  tipopart: string;
   updated_at: string;
 };
 
@@ -328,7 +336,7 @@ const Animals = (): JSX.Element => {
                   placeholder="Search"
                   defaultValue=""
                   {...register("search", {
-                    required: "Required",
+                    required: true,
                     minLength: 3,
                     maxLength: 41,
                   })}
@@ -469,7 +477,7 @@ const Animals = (): JSX.Element => {
                   placeholder="Name"
                   defaultValue={animalAdd.name}
                   {...register("name", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("name", e.target.value)}
                 />
@@ -488,7 +496,7 @@ const Animals = (): JSX.Element => {
                   placeholder="birthdate"
                   defaultValue={animalAdd.birthdate}
                   {...register("birthdate", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("birthdate", e.target.value)}
                 />
@@ -580,7 +588,7 @@ const Animals = (): JSX.Element => {
                   placeholder="mother"
                   defaultValue={animalAdd.mother}
                   {...register("mother", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("mother", e.target.value)}
                 />
@@ -599,7 +607,7 @@ const Animals = (): JSX.Element => {
                   placeholder="hierro"
                   defaultValue={animalAdd.hierro}
                   {...register("hierro", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("hierro", e.target.value)}
                 />
@@ -618,7 +626,7 @@ const Animals = (): JSX.Element => {
                   placeholder="tipopart"
                   defaultValue={animalAdd.tipopart}
                   {...register("tipopart", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("tipopart", e.target.value)}
                 />
@@ -637,7 +645,7 @@ const Animals = (): JSX.Element => {
                   placeholder="info"
                   defaultValue={animalAdd.info}
                   {...register("info", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("info", e.target.value)}
                 />
