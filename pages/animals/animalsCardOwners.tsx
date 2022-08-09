@@ -105,6 +105,13 @@ const AnimalsCardQuery: NextPage = () => {
   };
 
   // Search bitacora
+  const handleSearchOnChange1 = (ownerKey, value) => {
+    console.log("Value", value);
+    console.log("OwnerKey", ownerKey);
+    console.log("BitacoraSearch", bitacoraSearch);
+    setBitacoraSearch(value);
+    console.log("BitacoraSearchLuego", bitacoraSearch);
+  };
   const handleSearchOnChange = (ownerKey, value) => {
     console.log("Value", value);
     console.log("OwnerKey", ownerKey);
@@ -136,129 +143,44 @@ const AnimalsCardQuery: NextPage = () => {
             Query List Animals{" "}
           </h1>
         </div>
-        <div className="flex rounded items-center justify-between flex-wrap bg-gray-500 p-2">
-          <div className="flex-grow text-left px-3 py-1 m-2">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <input
-                  className="rounded py-2 px-4"
-                  type="text"
-                  placeholder="Search"
-                  defaultValue=""
-                  {...register("search", {
-                    required: true,
-                    minLength: 3,
-                    maxLength: 41,
-                  })}
-                  onChange={handleSearchOnChange}
-                />
-                {errors.search && errors.search.search}
-                <button
-                  type="submit"
-                  onClick={() => abrirModalSearchs()}
-                  className="absolute w-10 h-10 rounded-full inline p-2 shadow"
-                >
-                  {" "}
-                  <svg
-                    className="text-gray-100 w-6 h-6 fill-current"
-                    viewBox="0 0 56.966 56.966"
-                    xmlns="http://www.w3.org/2000/svg"
-                    version="1.1"
-                    id="Capa_1"
-                    x="0px"
-                    y="0px"
-                    width="512px"
-                    height="512px"
-                  >
-                    <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
-                  </svg>
-                </button>
-              </div>
-            </form>
-            <div className="flex-grow text-left px-3 py-1 m-2">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="md:w-6/12 px-3 mb-6 md:mb-0">
-                  <label
-                    className="uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                    htmlFor="owner_id"
-                  >
-                    Dueno
-                  </label>
-                  <Controller
-                    name="owner_id"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { onChange, value, name, ref } }) => {
-                      //console.log("CurrentSelection", currentSelection);
-                      const handleSelectChange = (
-                        selectedOption: tipo_event_id | null
-                      ) => {
-                        onChange(selectedOption?.value);
-                      };
-                      return (
-                        <Select
-                          inputRef={ref}
-                          defaultValue={{ label: "Seleccione..", value: 0 }}
-                          options={owners}
-                          name={name}
-                          onChange={(val) => {
-                            onChange(val.value);
-                            setOwnerId(val.value);
-                            handleOnChange("owner_id", val.value);
-                            handleSearchOnChange("owner_id", val.value);
-                          }}
-                        />
-                      );
+
+        <div className="flex mb-4">
+          <div className="w-1/2 p-2 text-center bg-green-400">
+            {" "}
+            <label
+              className="uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+              htmlFor="owner_id"
+            ></label>
+            <Controller
+              name="owner_id"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, value, name, ref } }) => {
+                //console.log("CurrentSelection", currentSelection);
+                const handleSelectChange = (
+                  selectedOption: tipo_event_id | null
+                ) => {
+                  onChange(selectedOption?.value);
+                };
+                return (
+                  <Select
+                    inputRef={ref}
+                    defaultValue={{ label: "Seleccione..", value: 0 }}
+                    options={owners}
+                    name={name}
+                    onChange={(val) => {
+                      onChange(val.value);
+                      setOwnerId(val.value);
+                      handleOnChange("owner_id", val.value);
+                      handleSearchOnChange("owner_id", val.value);
+                      abrirModalSearchs();
                     }}
                   />
-                  {errors.owner_id && <p>This field is required</p>}{" "}
-                </div>
-              </form>
-            </div>
+                );
+              }}
+            />
           </div>
-        </div>
-        <div className="rounded items-center justify-between flex-wrap">
-          <div className="flex-grow text-left px-3 py-1 m-2">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <label
-                  className="uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                  htmlFor="owner_id"
-                >
-                  Dueno
-                </label>
-                <Controller
-                  name="owner_id"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: { onChange, value, name, ref } }) => {
-                    //console.log("CurrentSelection", currentSelection);
-                    const handleSelectChange = (
-                      selectedOption: tipo_event_id | null
-                    ) => {
-                      onChange(selectedOption?.value);
-                    };
-                    return (
-                      <Select
-                        inputRef={ref}
-                        defaultValue={{ label: "Seleccione..", value: 0 }}
-                        options={owners}
-                        name={name}
-                        onChange={(val) => {
-                          onChange(val.value);
-                          setOwnerId(val.value);
-                          handleOnChange("owner_id", val.value);
-                          handleSearchOnChange("owner_id", val.value);
-                        }}
-                      />
-                    );
-                  }}
-                />
-                {errors.owner_id && <p>This field is required</p>}{" "}
-              </div>
-            </form>
-          </div>
-          <div className="flex-grow text-right px-3 py-1 m-2">
+          <div className="w-1/2 p-2 text-center bg-green-500">
             <button
               type="submit"
               onClick={() => abrirModalSearchs()}
@@ -281,6 +203,7 @@ const AnimalsCardQuery: NextPage = () => {
             </button>
           </div>
         </div>
+
         <div className="grid grid-cols-3 gap-4">
           {datafilter ? (
             datafilter.map((animal: any, key: any) => (
