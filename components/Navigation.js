@@ -4,10 +4,8 @@ const links = [
   { href: "/animals/", label: "Admin" },
   { href: "/bitacora", label: "Ganados" },
   { href: "/bitacora/bitacoras", label: "Caballos" },
-  { href: "/bitacora/bita_events/bitaEventsAdmin", label: "Chivos" },
-  { href: "/bitacora/bita_events/bitaEvents", label: "Conucos" },
-  { href: "/bitacora/bita_events/bitaEventsCard", label: "ListBitaEventsCard" },
   { href: "/animals/animalsCard", label: "ListAnimalCard" },
+  { href: "/animals/animalsCardOwners", label: "ListAnimalCardQuery" },
 ].map((link) => {
   link.key = `nav-link-${link.href}-${link.label}`;
   return link;
