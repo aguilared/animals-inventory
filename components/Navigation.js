@@ -6,6 +6,7 @@ const links = [
   { href: "/bitacora/bitacoras", label: "Caballos" },
   { href: "/animals/animalsCard", label: "ListAnimalCard" },
   { href: "/animals/animalsCardOwners", label: "ListAnimalCardQuery" },
+  { href: "/animals/animalsCardPaginated", label: "ListAnimalPage" },
 ].map((link) => {
   link.key = `nav-link-${link.href}-${link.label}`;
   return link;
