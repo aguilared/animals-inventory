@@ -120,7 +120,7 @@ const AnimalsCardQuery: NextPage = () => {
     console.log("BitacoraSearchLuego", bitacoraSearch);
   };
 
-  const abrirModalSearchs = () => {
+  const searchs = () => {
     console.log("BitacoraSearchhhhhh", bitacoraSearch);
 
     const value = bitacoraSearch;
@@ -147,10 +147,6 @@ const AnimalsCardQuery: NextPage = () => {
         <div className="flex mb-4">
           <div className="w-1/2 p-2 text-center bg-green-400">
             {" "}
-            <label
-              className="uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-              htmlFor="owner_id"
-            ></label>
             <Controller
               name="owner_id"
               control={control}
@@ -173,17 +169,17 @@ const AnimalsCardQuery: NextPage = () => {
                       setOwnerId(val.value);
                       handleOnChange("owner_id", val.value);
                       handleSearchOnChange("owner_id", val.value);
-                      abrirModalSearchs();
+                      searchs();
                     }}
                   />
                 );
               }}
             />
           </div>
-          <div className="w-1/2 p-2 text-center bg-green-500">
+          <div className="w-1/2 p-2 text-left bg-green-500">
             <button
               type="submit"
-              onClick={() => abrirModalSearchs()}
+              onClick={() => searchs()}
               className="absolute w-10 h-10 rounded-full inline p-2 shadow"
             >
               {" "}
