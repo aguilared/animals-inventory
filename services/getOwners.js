@@ -1,6 +1,6 @@
 import axios from "axios";
 const DATABASEURL = process.env.NEXT_PUBLIC_API_URL;
-const apiUrl = DATABASEURL + "users/";
+const apiUrl = DATABASEURL + "owners";
 export default async function getOwners() {
   try {
     const resp = await axios.get(apiUrl);

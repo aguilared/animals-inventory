@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
-import getBitaEventId from "../../services/getBitaEventId"; 
+import getAnimalId from "../../services/getAnimalId";
 import dayjs from "dayjs";
 import Interweave from "interweave";
 import { makeStyles } from "@material-ui/core/styles";
@@ -46,26 +46,33 @@ const convertDate1 = (date: any) => {
   return d;
 };
 
-const BitaEventCard = (props: any): JSX.Element => {
+const AnimalCard = (props: any): JSX.Element => {
   const { bitacoraSelected } = props;
+  console.log("bitacoraSelected", bitacoraSelected);
+
   const [bitacora_id, setBitacora_id] = useState("");
+  const [name, setName] = useState("");
   const [bitacoraDate, setBitacoraDate] = useState("");
   const [author, setAuthor] = useState("");
+  const [mother, setMother] = useState("");
+  const [alive, setAlive] = useState("");
   const [description, setDescription] = useState("");
   const [tipoevent, setTipoEvent] = useState("");
   const [event, setEvent] = useState("");
 
-  console.log("bitacoraSelected", bitacoraSelected);
   useEffect(
     function () {
-      getBitaEventId(bitacoraSelected.id).then((resp) => {
-        console.log("resp", resp);
-        setBitacora_id(resp.bitacora_id);
-        setBitacoraDate(resp.event_date);
-        setAuthor(resp.bitacora.author.name);
-        setTipoEvent(resp.tipoEvent.description);
-        setEvent(resp.event.description);
-        setDescription(resp.description);
+      getAnimalId(bitacoraSelected.id).then((resp) => {
+        console.log("resp???", resp);
+        setBitacora_id(resp.id);
+        setName(resp.name);
+        setBitacoraDate(resp.birthdate);
+        setAuthor(resp.owner.name);
+        setMother(resp.mother);
+        setAlive(resp.alive);
+        setTipoEvent(resp.clase.description);
+        setEvent(resp.claseid);
+        setDescription(resp.info);
       });
     },
     [bitacoraSelected]
@@ -82,19 +89,25 @@ const BitaEventCard = (props: any): JSX.Element => {
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography variant="h6" component="div">
-            BitacoraID: {bitacora_id}, BitaEventID: {bitacoraSelected.id}
-            {",  "}
-            {convertDate1(bitacoraDate)}
+            ID: {bitacora_id}
+            {",  Name: "}
+            {name}
           </Typography>
           <Typography variant="h6" component="div">
-            Author: {author}
+            Birthdate: {bitacoraDate}
+          </Typography>
+          <Typography variant="h6" component="div">
+            Owner: {author}
+          </Typography>
+          <Typography variant="h6" component="div">
+            Mother: {mother}
           </Typography>
 
           <Typography gutterBottom variant="h6" component="h2">
-            Tipo Event: {tipoevent}
+            Clase: {tipoevent}
           </Typography>
           <Typography gutterBottom variant="h6" component="h2">
-            Event: {event}
+            Alive: {alive}
           </Typography>
 
           <Typography variant="subtitle1" color="textSecondary" component="div">
@@ -109,12 +122,24 @@ const BitaEventCard = (props: any): JSX.Element => {
         image={"/static/images/" + `${bitacoraSelected.id}` + ".jpg"}
         alt="Live from space album cover"
       />
+      <CardMedia
+        component="img"
+        sx={{ width: 30 }}
+        image={"/static/images/" + `${bitacoraSelected.id}` + "_1.jpg"}
+        alt="Live from space album cover"
+      />
+      <CardMedia
+        component="img"
+        sx={{ width: 30 }}
+        image={"/static/images/" + `${bitacoraSelected.id}` + "_2.jpg"}
+        alt="Live from space album cover"
+      />
     </Card>
   );
 };
 
-BitaEventCard.propTypes = {
+AnimalCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BitaEventCard);
+export default withStyles(styles)(AnimalCard);

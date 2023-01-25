@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
-import getBitaEventId from "../../services/getBitaEventId"; 
+import getBitaEventId from "../../services/getBitaEventId";
 import dayjs from "dayjs";
 import Interweave from "interweave";
 import { makeStyles } from "@material-ui/core/styles";
@@ -107,6 +107,18 @@ const BitaEventCard = (props: any): JSX.Element => {
         component="img"
         sx={{ width: 30 }}
         image={"/static/images/" + `${bitacoraSelected.id}` + ".jpg"}
+        alt="Live from space album cover"
+      />
+      <CardMedia
+        component="img"
+        sx={{ width: 30 }}
+        image={"/static/images/" + `${bitacoraSelected.id}` + "_1.jpg"}
+        alt="Live from space album cover"
+      />
+      <CardMedia
+        component="img"
+        sx={{ width: 30 }}
+        image={"/static/images/" + `${bitacoraSelected.id}` + "_2.jpg"}
         alt="Live from space album cover"
       />
     </Card>

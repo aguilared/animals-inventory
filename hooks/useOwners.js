@@ -12,7 +12,14 @@ export function useOwners() {
         typeEvent.forEach((option) => {
           let row = {};
           row.value = option.id;
-          row.label = " " + option.id + " " + option.name;
+          row.label =
+            " " +
+            option.id +
+            " " +
+            option.name +
+            "(" +
+            option._count.animal +
+            ")";
           options.push(row);
         });
         console.log("Options", options);

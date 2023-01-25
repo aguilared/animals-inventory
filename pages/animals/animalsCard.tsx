@@ -39,7 +39,9 @@ const AnimalsCard: NextPage = () => {
     <Container>
       <QueryClientProvider client={queryClient}>
         <div className="container mx-auto px-20">
-          <h1 className="text-gray-600 text-5xl font-bold">List Animals</h1>
+          <h1 className="text-gray-600 text-5xl font-bold">
+            List Animals Gonzalera Ranch
+          </h1>
         </div>
         <div className="grid grid-cols-3 gap-4">
           {data ? (

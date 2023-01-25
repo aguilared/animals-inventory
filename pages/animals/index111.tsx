@@ -14,7 +14,6 @@ import Image from "next/image";
 import { useOwners } from "../../hooks/useOwners";
 import { useClases } from "../../hooks/useClases";
 import AnimalEdit from "../../components/animals/AnimalEdit";
-import AnimalCard from "./AnimalCard";
 
 const DATABASEURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -58,7 +57,10 @@ const Animals = (): JSX.Element => {
   const { clases } = useClases();
   console.log(owners);
   console.log(clases);
+  const [eventId, setEventId] = useState("");
+  const [eventId1, setEventId1] = useState("");
 
+  const [intervalMs, setIntervalMs] = useState(4000);
   const { status, data, error, isLoading, refetch } = useQuery(
     "Animalss",
     async () => {
@@ -66,7 +68,7 @@ const Animals = (): JSX.Element => {
       return res.data;
     }
   );
-  //console.log("DATA", data);
+  console.log("DATA", data);
 
   const {
     register,
@@ -75,6 +77,11 @@ const Animals = (): JSX.Element => {
     control,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const validate = (selected) => {
+    selected === "" || "You must be at least 18 years old";
+    console.log("eleccionado", selected);
+  };
 
   const [animalAdd, setAnimalAdd] = useState({
     alive: "Si",
@@ -157,7 +164,7 @@ const Animals = (): JSX.Element => {
     setAnimalSeleccionada1(elemento);
     console.log("ELEMENTOTO VIEW", elemento);
     console.log("CASO", caso);
-    caso === "Mostrar" ? setModalViewHist(true) : setModalViewHist(false);
+    caso === "Editar" ? setModalEditar(true) : setModalViewHist(true);
   };
   // to editar
   const seleccionarAnimal2 = (elemento, caso) => {
@@ -522,6 +529,7 @@ const Animals = (): JSX.Element => {
                         name={name}
                         onChange={(val) => {
                           onChange(val.value);
+                          setEventId(val.value);
                           handleOnChange("clase_id", val.value);
                         }}
                       />
@@ -558,6 +566,7 @@ const Animals = (): JSX.Element => {
                         name={name}
                         onChange={(val) => {
                           onChange(val.value);
+                          setEventId(val.value);
                           handleOnChange("owner_id", val.value);
                         }}
                       />
@@ -688,9 +697,7 @@ const Animals = (): JSX.Element => {
           toggle={toggleViewHist}
         >
           <ModalHeader toggle={toggleViewHist} />
-          <ModalBody>
-            <AnimalCard bitacoraSelected={animalSeleccionada1} />
-          </ModalBody>
+          <ModalBody></ModalBody>
           <ModalFooter>
             <button
               className="btn btn-secondary"
