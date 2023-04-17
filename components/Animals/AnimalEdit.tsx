@@ -241,7 +241,9 @@ const AnimalEdit = (props: any): JSX.Element => {
         >
           Infos
         </label>
-        <input
+        <textarea
+          cols={100}
+          rows={6}
           className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
           placeholder="info"
           defaultValue={animalSeleccionada2 && animalSeleccionada2.info}

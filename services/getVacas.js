@@ -1,7 +1,7 @@
 import axios from "axios";
 const DATABASEURL = process.env.NEXT_PUBLIC_API_URL;
-const apiUrl = DATABASEURL + "clases";
-export default async function getClases() {
+const apiUrl = DATABASEURL + "animals/vacas";
+export default async function getOwners() {
   try {
     const resp = await axios.get(apiUrl);
     //console.log("RESPP", resp);

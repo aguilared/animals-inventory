@@ -13,7 +13,21 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import { useOwners } from "../../hooks/useOwners";
 import { useClases } from "../../hooks/useClases";
+import { useVacas } from "../../hooks/useVacas";
 import AnimalEdit from "../../components/animals/AnimalEdit";
+import AnimalCard from "./AnimalCard";
+import toast, { Toaster } from "react-hot-toast";
+
+const notify = () =>
+  toast.custom((t) => (
+    <div
+      className={`bg-white px-6 py-4 shadow-md rounded-full ${
+        t.visible ? "animate-enter" : "animate-leave"
+      }`}
+    >
+      Animal updated successfully 👋
+    </div>
+  ));
 
 const DATABASEURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -29,12 +43,21 @@ const queryClient = new QueryClient({
 });
 
 type Inputs = {
+  alive: string;
+  birthdate: string;
+  clase_id: number;
+  hierro: string;
   id: number;
-  description: string;
+  info: string;
+  mother: string;
+  mother_id: number;
+  name: string;
+  owner_id: number;
+  tipopart: string;
   updated_at: string;
 };
 
-const dateBitacora = new Date();
+const dateAnimal = new Date();
 
 const convertDate = (dateTo: any) => {
   const d = dayjs(dateTo).format("DD-MM-YYYY");
@@ -47,12 +70,11 @@ const convertDate1 = (date: any) => {
 const Animals = (): JSX.Element => {
   const { owners } = useOwners();
   const { clases } = useClases();
-  console.log(owners);
-  console.log(clases);
-  const [eventId, setEventId] = useState("");
-  const [eventId1, setEventId1] = useState("");
+  const { vacas } = useVacas();
+  //console.log("OWNERS",owners);
+  //console.log("CLASES",clases);
+  console.log("VACAS", vacas);
 
-  const [intervalMs, setIntervalMs] = useState(4000);
   const { status, data, error, isLoading, refetch } = useQuery(
     "Animalss",
     async () => {
@@ -60,7 +82,7 @@ const Animals = (): JSX.Element => {
       return res.data;
     }
   );
-  console.log("DATA", data);
+  console.log("DATAAnimals", data);
 
   const {
     register,
@@ -70,34 +92,31 @@ const Animals = (): JSX.Element => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const validate = (selected) => {
-    selected === "" || "You must be at least 18 years old";
-    console.log("eleccionado", selected);
-  };
-
-  const [bitacoraAdd, setBitacoraAdd] = useState({
+  const [animalAdd, setAnimalAdd] = useState({
     alive: "Si",
-    birthdate: convertDate1(dateBitacora),
+    birthdate: convertDate1(dateAnimal),
     clase_id: 1,
     hierro: "Si",
     info: "Hierro ... y .. Color ..., Cachos. ...",
     mother: "",
+    mother_id: 0,
     name: "",
     owner_id: 1,
     tipopart: "Normal",
   });
 
-  const [bitacoraE, setBitacoraE] = useState({
+  const [animalE, setAnimalE] = useState({
     alive: "",
-    birthdate: "",
+    birthdate: convertDate1(dateAnimal),
     clase_id: 1,
     hierro: "",
+    id: "",
     info: "",
     mother: "",
+    mother__id: 0,
     name: "",
     owner_id: 1,
     tipopart: "",
-    info: "Color ..., Cachos...",
     updated_at: "2022-01-03 11:07",
   });
 
@@ -112,47 +131,72 @@ const Animals = (): JSX.Element => {
   const toggleEliminar = () => setModalEliminar(!modalEliminar);
   const toggleEditar = () => setModalEditar(!modalEditar);
 
-  const [bitacoraSeleccionada, setBitacoraSeleccionada] = useState({
+  const [animalSeleccionada, setAnimalSeleccionada] = useState({
+    id: "",
+    alive: "",
+    birthdate: "",
+    clase_id: "",
+    hierro: "",
+    info: "",
+    mother_id: "",
+    name: "",
+    owner_id: "",
+    tipopart: "",
+    updated_at: "",
+  });
+  // to viewAnimal
+  const [animalSeleccionada1, setAnimalSeleccionada1] = useState({
     id: "",
     description: "",
     updated_at: "",
   });
-  // to viewBitacora
-  const [bitacoraSeleccionada1, setBitacoraSeleccionada1] = useState({
+  const [animalSeleccionada2, setAnimalSeleccionada2] = useState({
     id: "",
-    description: "",
-    updated_at: "",
-  });
-  const [bitacoraSeleccionada2, setBitacoraSeleccionada2] = useState({
-    id: "",
-    description: "",
+    alive: "",
+    birthdate: "",
+    clase_id: "",
+    hierro: "",
+    info: "",
+    mother: "",
+    mother_id: "",
+    name: "",
+    owner_id: "",
+    tipopart: "",
     updated_at: "",
   });
 
-  const seleccionarBitacora = (elemento, caso) => {
-    setBitacoraSeleccionada(elemento);
+  const seleccionarAnimal = (elemento, caso) => {
+    setAnimalSeleccionada(elemento);
     console.log("ELEMENTO Eliminar o Editar", elemento);
     console.log("CASO Eliminar o Editar", caso);
     caso === "Editar" ? setModalEditar(true) : setModalEliminar(true);
   };
   // to viewHist
-  const seleccionarBitacora1 = (elemento, caso) => {
-    setBitacoraSeleccionada1(elemento);
-    console.log("ELEMENTO", elemento);
+  const seleccionarAnimal1 = (elemento, caso) => {
+    setAnimalSeleccionada1(elemento);
+    console.log("ELEMENTOTO VIEW", elemento);
     console.log("CASO", caso);
-    caso === "Editar" ? setModalEditar(true) : setModalViewHist(true);
+    caso === "Mostrar" ? setModalViewHist(true) : setModalViewHist(false);
   };
   // to editar
-  const seleccionarBitacora2 = (elemento, caso) => {
-    setBitacoraSeleccionada2(elemento);
+  const seleccionarAnimal2 = (elemento, caso) => {
+    setAnimalSeleccionada2(elemento);
     console.log("ELEMENTO", elemento);
-    setBitacoraE({
-      ...bitacoraE,
+    setAnimalE({
+      ...animalE,
+      birthdate: elemento.birthdate,
+      clase_id: elemento.clase_id,
+      hierro: elemento.hierro,
       id: elemento.id,
-      description: elemento.description,
       updated_at: elemento.updated_at,
+      info: elemento.info,
+      mother: elemento.mother,
+      mother_id: elemento.mother_id,
+      name: elemento.name,
+      owner_id: elemento.owner_id,
+      tipopart: elemento.tipopart,
     });
-    console.log("BITACORAE", bitacoraE);
+    console.log("AnimalE", animalE);
     caso === "Editar" ? setModalEditar(true) : setModalViewHist(true);
   };
 
@@ -161,24 +205,24 @@ const Animals = (): JSX.Element => {
   };
 
   const abrirModalSearchs = () => {
-    console.log("el search bitacora", bitacora);
+    console.log("el search animal", animal);
     setModalSearchs(true);
   };
 
   const handleSearchOnChange = (e) => {
     console.log("value", e.target.value);
-    setBitacoraAdd(e.target.value);
+    setAnimalAdd(e.target.value);
   };
 
-  const handleOnChange = (bitacoraKey, value) => {
+  const handleOnChange = (animalKey, value) => {
     console.log("valueOnChangeAdd", value);
-    setBitacoraAdd({ ...bitacoraAdd, [bitacoraKey]: value });
-    console.log("SETbitacoraAdd", bitacoraAdd);
+    setAnimalAdd({ ...animalAdd, [animalKey]: value });
+    console.log("SETanimalAdd", animalAdd);
   };
-  const handleOnChangeE = (bitacoraKey, value) => {
+  const handleOnChangeE = (animalKey, value) => {
     console.log("valueOnChangeEditar", value);
-    setBitacoraE({ ...bitacoraE, [bitacoraKey]: value });
-    console.log("bitacoraOnchageE", bitacoraE);
+    setAnimalE({ ...animalE, [animalKey]: value });
+    console.log("animalOnchageE", animalE);
   };
   const resetForm = () => {
     reset(); // will reset the entire form :)
@@ -194,17 +238,18 @@ const Animals = (): JSX.Element => {
   };
 
   const onSubmit = async (e: BaseSyntheticEvent) => {
-    console.log("FormData", bitacoraAdd);
+    console.log("FormData", animalAdd);
     const parsedata = {
-      alive: bitacoraAdd.alive,
-      birthdate: bitacoraAdd.birthdate,
-      clase_id: Number(bitacoraAdd.clase_id),
-      hierro: bitacoraAdd.hierro,
-      info: bitacoraAdd.info,
-      mother: bitacoraAdd.mother,
-      name: bitacoraAdd.name,
-      owner_id: Number(bitacoraAdd.owner_id),
-      tipopart: bitacoraAdd.tipopart,
+      alive: animalAdd.alive,
+      birthdate: animalAdd.birthdate,
+      clase_id: Number(animalAdd.clase_id),
+      hierro: animalAdd.hierro,
+      info: animalAdd.info,
+      mother: animalAdd.mother,
+      mother_id: animalAdd.mother_id,
+      name: animalAdd.name,
+      owner_id: Number(animalAdd.owner_id),
+      tipopart: animalAdd.tipopart,
     };
     try {
       await fetch("/api/animals/create", {
@@ -220,18 +265,30 @@ const Animals = (): JSX.Element => {
   };
 
   const onSubmitE = async (e: BaseSyntheticEvent) => {
-    const dataE = {
-      id: bitacoraE.id,
-      description: bitacoraE.description,
-      updated_at: bitacoraE.updated_at,
+    console.log("FormDataEdit", animalE);
+    const parsedata = {
+      alive: animalE.alive,
+      birthdate: animalE.birthdate,
+      clase_id: Number(animalE.clase_id),
+      hierro: animalE.hierro,
+      id: Number(animalE.id),
+      info: animalE.info,
+      mother: animalE.mother,
+      mother_id: animalE.mother_id,
+      name: animalE.name,
+      owner_id: Number(animalE.owner_id),
+      tipopart: animalE.tipopart,
     };
     try {
-      //await editBitacora(data);
-      const result = await fetch("/api/tipoEvents/update", {
+      //await editAnimal(data);
+      const result = await fetch("/api/animals/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataE),
+        body: JSON.stringify(parsedata),
       });
+      notify();
+      //toast.success("Animal updated successfully");
+
       refetch();
       setModalEditar(false);
     } catch (error) {
@@ -243,9 +300,9 @@ const Animals = (): JSX.Element => {
     try {
       console.log("Entra a Borrar");
       const result = await fetch(
-        "/api/animals/delete/" + bitacoraSeleccionada.id
+        "/api/animals/delete/" + animalSeleccionada.id
       );
-      // await removeBitacora(bitacoraSeleccionada.id);
+      // await removeAnimal(animalSeleccionada.id);
       refetch();
       setModalEliminar(false);
     } catch (error) {
@@ -253,10 +310,10 @@ const Animals = (): JSX.Element => {
     }
   };
 
-  const ButtonAddBitacora = forwardRef(({ onClick, href }, ref) => (
+  const ButtonAddAnimal = forwardRef(({ onClick, href }, ref) => (
     <button
       className="bg-blue-300 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded inline-flex items-center"
-      // onClick={handleClickAddBitacora}
+      // onClick={handleClickAddAnimal}
       onClick={() => abrirModalInsertar()}
       ref={ref}
     >
@@ -297,7 +354,7 @@ const Animals = (): JSX.Element => {
                   placeholder="Search"
                   defaultValue=""
                   {...register("search", {
-                    required: "Required",
+                    required: true,
                     minLength: 3,
                     maxLength: 41,
                   })}
@@ -328,7 +385,11 @@ const Animals = (): JSX.Element => {
             </form>
           </div>
           <div className="flex-grow text-right px-3 py-1 m-2">
-            <ButtonAddBitacora />
+            <button onClick={notify}>Make me a toast</button>
+            <Toaster />
+          </div>
+          <div className="flex-grow text-right px-3 py-1 m-2">
+            <ButtonAddAnimal />
           </div>
         </div>
         {isLoading ? (
@@ -337,39 +398,40 @@ const Animals = (): JSX.Element => {
           </div>
         ) : null}
         {data && data.length > 0
-          ? data.map((bitacora: any) => (
+          ? data.map((animal: any) => (
               <div
                 className="flex rounded items-left bg-gray-100 mb-1 shadow"
-                key={bitacora.id}
+                key={animal.id}
               >
                 <div className="w-4/5 inline-block text-gray-700 text-left px-1 py-0 m-0">
+                  ID= {animal.id} &nbsp;
                   <IconButton
-                    onClick={() => seleccionarBitacora1(bitacora, "Mostrar")}
+                    onClick={() => seleccionarAnimal1(animal, "Mostrar")}
                   >
                     <StreetviewRoundedIcon fontSize="small" />
                   </IconButton>{" "}
                   <a
-                    href={"/static/images/" + `${bitacora.id}` + ".jpg"}
+                    href={"/static/images/" + `${animal.id}` + ".jpg"}
                     target={"_blank"}
                     rel="noreferrer"
                   >
                     <Image
-                      onClick={() => seleccionarBitacora1(bitacora, "Mostrar")}
-                      src={"/static/images/" + `${bitacora.id}` + ".jpg"}
+                      onClick={() => seleccionarAnimal1(animal, "Mostrar")}
+                      src={"/static/images/" + `${animal.id}` + ".jpg"}
                       alt="my Image"
                       width="112"
                       height="88"
                     />
                   </a>
-                  ID= {bitacora.id} &nbsp; Nombre= {bitacora.name}, &nbsp;
-                  Dueno=
-                  {bitacora.owner.name}, &nbsp; Nacimiento=
-                  {convertDate(bitacora.birthdate)} &nbsp;
+                  {animal.clase.id}&nbsp; {animal.clase.description}&nbsp;
+                  {animal.name}, &nbsp; Dueno=
+                  {animal.owner.name}, &nbsp; Nacimiento=
+                  {convertDate(animal.birthdate)} &nbsp;{" "}
                 </div>
 
                 <div className="inline-block text-gray-700 text-right px-1 py-1 m-0">
                   <button
-                    onClick={() => seleccionarBitacora(bitacora, "Eliminar")}
+                    onClick={() => seleccionarAnimal(animal, "Eliminar")}
                     className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-1 px-0 mr-1 rounded-full inline-flex items-center"
                   >
                     <svg
@@ -394,7 +456,7 @@ const Animals = (): JSX.Element => {
 
                 <div className="inline-block text-gray-700 text-right px-1 py-1 m-0">
                   <button
-                    onClick={() => seleccionarBitacora2(bitacora, "Editar")}
+                    onClick={() => seleccionarAnimal2(animal, "Editar")}
                     className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-1 px-0 mr-1 rounded-full inline-flex items-center"
                   >
                     <svg
@@ -414,13 +476,11 @@ const Animals = (): JSX.Element => {
                     </svg>
                   </button>
                 </div>
-
-                <div className="w-1/5 inline-block text-gray-700 text-right px-1 py-1 m-0">
+                <td className="border px-2 py-2">
                   <Link
-                    href={`/bitacora/bita_events/${encodeURIComponent(
-                      bitacora.id
-                    )}`}
+                    href={`/animals/animalId/${encodeURIComponent(animal.id)}`}
                     passHref
+                    legacyBehavior
                   >
                     <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold mr-1 py-1 px-1 rounded-full inline-flex items-center">
                       <svg
@@ -430,16 +490,12 @@ const Animals = (): JSX.Element => {
                         width="24px"
                         fill="#000000"
                       >
-                        <path
-                          clipRule="evenodd"
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                        <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
+                        <title>View</title>
+                        <path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"></path>
                       </svg>
                     </button>
                   </Link>
-                </div>
+                </td>
               </div>
             ))
           : null}
@@ -461,9 +517,9 @@ const Animals = (): JSX.Element => {
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="Name"
-                  defaultValue={bitacoraAdd.name}
+                  defaultValue={animalAdd.name}
                   {...register("name", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("name", e.target.value)}
                 />
@@ -480,9 +536,9 @@ const Animals = (): JSX.Element => {
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="birthdate"
-                  defaultValue={bitacoraAdd.birthdate}
+                  defaultValue={animalAdd.birthdate}
                   {...register("birthdate", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("birthdate", e.target.value)}
                 />
@@ -499,7 +555,7 @@ const Animals = (): JSX.Element => {
                 <Controller
                   name="clase_id"
                   control={control}
-                  rules={{ validate }}
+                  rules={{ required: true }}
                   render={({ field: { onChange, value, name, ref } }) => {
                     const handleSelectChange = (
                       selectedOption: tipo_event_id | null
@@ -515,7 +571,6 @@ const Animals = (): JSX.Element => {
                         name={name}
                         onChange={(val) => {
                           onChange(val.value);
-                          setEventId(val.value);
                           handleOnChange("clase_id", val.value);
                         }}
                       />
@@ -535,7 +590,7 @@ const Animals = (): JSX.Element => {
                 <Controller
                   name="owner_id"
                   control={control}
-                  rules={{ validate }}
+                  rules={{ required: true }}
                   render={({ field: { onChange, value, name, ref } }) => {
                     //console.log("CurrentSelection", currentSelection);
                     const handleSelectChange = (
@@ -552,7 +607,6 @@ const Animals = (): JSX.Element => {
                         name={name}
                         onChange={(val) => {
                           onChange(val.value);
-                          setEventId(val.value);
                           handleOnChange("owner_id", val.value);
                         }}
                       />
@@ -565,16 +619,52 @@ const Animals = (): JSX.Element => {
               <div className="md:w-11/12 px-3 mb-6 md:mb-0">
                 <label
                   className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                  htmlFor="mother"
+                  htmlFor="mother_id"
                 >
                   Madre
+                </label>
+                <Controller
+                  name="mother_id"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { onChange, value, name, ref } }) => {
+                    //console.log("CurrentSelection", currentSelection);
+                    const handleSelectChange = (
+                      selectedOption: tipo_event_id | null
+                    ) => {
+                      onChange(selectedOption?.value);
+                    };
+                    return (
+                      <Select
+                        inputRef={ref}
+                        defaultValue={{ label: "Seleccione..", value: 0 }}
+                        options={vacas}
+                        value={vacas.find((c) => c.value === value)}
+                        name={name}
+                        onChange={(val) => {
+                          onChange(val.value);
+                          handleOnChange("mother_id", val.value);
+                        }}
+                      />
+                    );
+                  }}
+                />
+                {errors.mother_id && <p>This field is required</p>}{" "}
+              </div>
+
+              <div className="md:w-11/12 px-3 mb-6 md:mb-0">
+                <label
+                  className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                  htmlFor="mother"
+                >
+                  Nombre Madre
                 </label>
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="mother"
-                  defaultValue={bitacoraAdd.mother}
+                  defaultValue={animalAdd.mother}
                   {...register("mother", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("mother", e.target.value)}
                 />
@@ -591,9 +681,9 @@ const Animals = (): JSX.Element => {
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="hierro"
-                  defaultValue={bitacoraAdd.hierro}
+                  defaultValue={animalAdd.hierro}
                   {...register("hierro", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("hierro", e.target.value)}
                 />
@@ -610,9 +700,9 @@ const Animals = (): JSX.Element => {
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="tipopart"
-                  defaultValue={bitacoraAdd.tipopart}
+                  defaultValue={animalAdd.tipopart}
                   {...register("tipopart", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("tipopart", e.target.value)}
                 />
@@ -626,12 +716,14 @@ const Animals = (): JSX.Element => {
                 >
                   Infos
                 </label>
-                <input
+                <textarea
+                  cols={100}
+                  rows={6}
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="info"
-                  defaultValue={bitacoraAdd.info}
+                  defaultValue={animalAdd.info}
                   {...register("info", {
-                    required: "Required",
+                    required: true,
                   })}
                   onChange={(e) => handleOnChange("info", e.target.value)}
                 />
@@ -654,99 +746,18 @@ const Animals = (): JSX.Element => {
 
         <Modal isOpen={modalEditar} toggle={toggleEditar}>
           <ModalHeader toggle={toggleEditar}>
-            Tipo Event ID: {bitacoraSeleccionada2 && bitacoraSeleccionada2.id}
+            Animal ID: {animalSeleccionada2 && animalSeleccionada2.id}
           </ModalHeader>
           <ModalBody>
-            <form
-              name="editForm"
-              className="w-full max-w-lg  bg-gray-400 shadow-md rounded"
-              onSubmit={handleSubmit(onSubmitE)}
-            >
-              <div className="md:w-1/2 px-3 mb-6 md:mb-1">
-                <label
-                  className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-1"
-                  htmlFor="description"
-                >
-                  Tipo Event
-                </label>
-                <input
-                  className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                  placeholder="TipoEvento"
-                  defaultValue={
-                    bitacoraSeleccionada2 && bitacoraSeleccionada2.description
-                  }
-                  {...register("description", {
-                    required: true,
-                  })}
-                  onChange={(e) =>
-                    handleOnChangeE("description", e.target.value)
-                  }
-                />
-                {errors.description && <p>This is required</p>}
-              </div>
-
-              <div className="md:w-1/2 px-3 mb-6 md:mb-1">
-                <label
-                  className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-1"
-                  htmlFor="updated_at"
-                >
-                  Fecha Tipo Event
-                </label>
-                <input
-                  className="appearance-none block w-full border border-grey-lighter rounded py-3 px-4"
-                  type="text"
-                  placeholder="fechaUpdated"
-                  defaultValue={
-                    bitacoraSeleccionada2 && bitacoraSeleccionada2.updated_at
-                  }
-                  {...register("updated_at", {
-                    required: true,
-                  })}
-                  onChange={(e) =>
-                    handleOnChangeE("updated_at", e.target.value)
-                  }
-                />
-                {errors.updated_at && errors.updated_at.updated_at}
-              </div>
-              <div className="md:w-1/2  px-3 mb-6 md:mb-1">
-                <button
-                  type="reset"
-                  onClick={() => reset()}
-                  className="btn btn-secondary"
-                >
-                  Reset
-                </button>
-              </div>
-              <input
-                style={{ display: "block", marginTop: 20 }}
-                type="reset"
-                value="Standard Reset Field Values"
-              />
-
-              <div className="invisible md:invisible md:w-1/2 px-3 mb-6 md:mb-0">
-                <label
-                  className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                  htmlFor="id"
-                >
-                  ID
-                </label>
-                <input
-                  className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                  type="number"
-                  defaultValue={
-                    bitacoraSeleccionada2 && bitacoraSeleccionada2.id
-                  }
-                  {...register("id", {
-                    required: "Required",
-                    minLength: 1,
-                    maxLength: 9,
-                  })}
-                  onChange={(e) => handleOnChangeE("id", e.target.value)}
-                />
-                {errors.id && errors.id.id}
-              </div>
-            </form>
+            <AnimalEdit
+              animalSeleccionada2={animalSeleccionada2}
+              onSubmitE={onSubmitE}
+              handleOnChangeE={handleOnChangeE}
+              owners={owners}
+              clases={clases}
+            />
           </ModalBody>
+
           <ModalFooter>
             <button className="btn btn-danger" onClick={() => onSubmitE()}>
               Sí
@@ -764,7 +775,9 @@ const Animals = (): JSX.Element => {
           toggle={toggleViewHist}
         >
           <ModalHeader toggle={toggleViewHist} />
-          <ModalBody></ModalBody>
+          <ModalBody>
+            <AnimalCard bitacoraSelected={animalSeleccionada1} />
+          </ModalBody>
           <ModalFooter>
             <button
               className="btn btn-secondary"
@@ -779,12 +792,12 @@ const Animals = (): JSX.Element => {
           <ModalHeader toggle={toggleEliminar}>Eliminar tipoEvent</ModalHeader>
           <ModalBody>
             Estás Seguro que deseas eliminar la tipoEvent{" "}
-            {bitacoraSeleccionada && bitacoraSeleccionada.id}
+            {animalSeleccionada && animalSeleccionada.id}
           </ModalBody>
           <ModalFooter>
             <button
               className="btn btn-danger"
-              onClick={() => eliminar(bitacoraSeleccionada.id)}
+              onClick={() => eliminar(animalSeleccionada.id)}
             >
               Sí
             </button>

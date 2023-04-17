@@ -216,12 +216,15 @@ const AnimalsCardQuery: NextPage = () => {
                       <Typography variant="h6" align="left" component="div">
                         Animal ID: {animal.id},{" "}
                         <a
-                          href={`/bitacora/bita_event/${encodeURIComponent(
+                          href={`/animals/animalId/${encodeURIComponent(
                             animal.id
                           )}`}
                           target={"_blank"}
                           rel="noreferrer"
-                        ></a>
+                        >
+                          {" "}
+                          Animal ID: {animal.id},{" "}
+                        </a>
                       </Typography>
                       <Typography
                         gutterBottom

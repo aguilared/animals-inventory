@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  name      String?
+  email     String?    @unique
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  password  String?
+  nivel     Int
+  Post      Post[]     @relation("PostTousers")
+  bitacora  Bitacora[]
+
+  @@map("users")
+}
+
+model Bitacora {
+  id            Int          @id @default(autoincrement())
+  bitacora_date String?
+  author_id     Int?
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  author        User?        @relation(fields: [author_id], references: [id])
+  bita_events   BitaEvents[]
+
+  @@map("bitacoras")
+}
+
+model Animal {
+  id         Int      @id @default(autoincrement())
+  birthdate  String?
+  owner_id   Int?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  clase_id   Int?
+  name       String?
+  info       String?
+  mother     String?
+  hierro     String?
+  tipopart   String?
+  alive      String?
+  mother_id  Int?
+
+  @@map("animals")
+}
+
+model Clase {
+  id          Int      @id @default(autoincrement())
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  @@map("clases")
+}
+
+model BitaEvents {
+  id            Int        @id @default(autoincrement())
+  bitacora_id   Int?
+  event_date    DateTime?
+  tipo_event_id Int?
+  events_id     Int?
+  description   String?
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  image         Boolean
+  bitacora      Bitacora?  @relation(fields: [bitacora_id], references: [id])
+  event         Event?     @relation(fields: [events_id], references: [id])
+  tipoEvent     TipoEvent? @relation(fields: [tipo_event_id], references: [id])
+
+  @@map("bita_events")
+}
+
+model TipoEvent {
+  id          Int          @id @default(autoincrement())
+  description String?
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
+  bita_events BitaEvents[]
+  events      Event[]
+
+  @@map("tipo_events")
+}
+
+model Event {
+  id            Int          @id @default(autoincrement())
+  description   String?
+  tipo_event_id Int?
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  tipoEvent     TipoEvent?   @relation(fields: [tipo_event_id], references: [id])
+  bita_events   BitaEvents[]
+
+  @@map("events")
+}
+
+model Post {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean @default(false)
+  authorId  Int?
+  users     User?   @relation("PostTousers", fields: [authorId], references: [id])
+}

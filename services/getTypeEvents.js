@@ -1,6 +1,6 @@
 import axios from "axios";
 const DATABASEURL = process.env.NEXT_PUBLIC_API_URL;
-const apiUrl = DATABASEURL + "bitacora/tipoEvents/";
+const apiUrl = DATABASEURL + "bitacora/tipoEvents";
 export default async function getTypeEvents() {
   try {
     const resp = await axios.get(apiUrl);

@@ -13,8 +13,21 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import { useOwners } from "../../hooks/useOwners";
 import { useClases } from "../../hooks/useClases";
+import { useVacas } from "../../hooks/useVacas";
 import AnimalEdit from "../../components/animals/AnimalEdit";
 import AnimalCard from "./AnimalCard";
+import toast, { Toaster } from "react-hot-toast";
+
+const notify = () =>
+  toast.custom((t) => (
+    <div
+      className={`bg-white px-6 py-4 shadow-md rounded-full ${
+        t.visible ? "animate-enter" : "animate-leave"
+      }`}
+    >
+      Animal updated successfully 👋
+    </div>
+  ));
 
 const DATABASEURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -37,6 +50,7 @@ type Inputs = {
   id: number;
   info: string;
   mother: string;
+  mother_id: number;
   name: string;
   owner_id: number;
   tipopart: string;
@@ -56,8 +70,10 @@ const convertDate1 = (date: any) => {
 const Animals = (): JSX.Element => {
   const { owners } = useOwners();
   const { clases } = useClases();
-  console.log(owners);
-  console.log(clases);
+  const { vacas } = useVacas();
+  //console.log("OWNERS",owners);
+  //console.log("CLASES",clases);
+  console.log("VACAS", vacas);
 
   const { status, data, error, isLoading, refetch } = useQuery(
     "Animalss",
@@ -66,7 +82,7 @@ const Animals = (): JSX.Element => {
       return res.data;
     }
   );
-  //console.log("DATA", data);
+  console.log("DATAAnimals", data);
 
   const {
     register,
@@ -83,6 +99,7 @@ const Animals = (): JSX.Element => {
     hierro: "Si",
     info: "Hierro ... y .. Color ..., Cachos. ...",
     mother: "",
+    mother_id: 0,
     name: "",
     owner_id: 1,
     tipopart: "Normal",
@@ -96,6 +113,7 @@ const Animals = (): JSX.Element => {
     id: "",
     info: "",
     mother: "",
+    mother__id: 0,
     name: "",
     owner_id: 1,
     tipopart: "",
@@ -120,7 +138,7 @@ const Animals = (): JSX.Element => {
     clase_id: "",
     hierro: "",
     info: "",
-    mother: "",
+    mother_id: "",
     name: "",
     owner_id: "",
     tipopart: "",
@@ -140,6 +158,7 @@ const Animals = (): JSX.Element => {
     hierro: "",
     info: "",
     mother: "",
+    mother_id: "",
     name: "",
     owner_id: "",
     tipopart: "",
@@ -172,6 +191,7 @@ const Animals = (): JSX.Element => {
       updated_at: elemento.updated_at,
       info: elemento.info,
       mother: elemento.mother,
+      mother_id: elemento.mother_id,
       name: elemento.name,
       owner_id: elemento.owner_id,
       tipopart: elemento.tipopart,
@@ -226,6 +246,7 @@ const Animals = (): JSX.Element => {
       hierro: animalAdd.hierro,
       info: animalAdd.info,
       mother: animalAdd.mother,
+      mother_id: animalAdd.mother_id,
       name: animalAdd.name,
       owner_id: Number(animalAdd.owner_id),
       tipopart: animalAdd.tipopart,
@@ -253,6 +274,7 @@ const Animals = (): JSX.Element => {
       id: Number(animalE.id),
       info: animalE.info,
       mother: animalE.mother,
+      mother_id: animalE.mother_id,
       name: animalE.name,
       owner_id: Number(animalE.owner_id),
       tipopart: animalE.tipopart,
@@ -264,6 +286,9 @@ const Animals = (): JSX.Element => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsedata),
       });
+      notify();
+      //toast.success("Animal updated successfully");
+
       refetch();
       setModalEditar(false);
     } catch (error) {
@@ -360,6 +385,10 @@ const Animals = (): JSX.Element => {
             </form>
           </div>
           <div className="flex-grow text-right px-3 py-1 m-2">
+            <button onClick={notify}>Make me a toast</button>
+            <Toaster />
+          </div>
+          <div className="flex-grow text-right px-3 py-1 m-2">
             <ButtonAddAnimal />
           </div>
         </div>
@@ -374,13 +403,7 @@ const Animals = (): JSX.Element => {
                 className="flex rounded items-left bg-gray-100 mb-1 shadow"
                 key={animal.id}
               >
-                <div className="w-4/5 inline-block text-gray-700 text-left px-1 py-0 m-0">
-                  ID= {animal.id} &nbsp;
-                  <IconButton
-                    onClick={() => seleccionarAnimal1(animal, "Mostrar")}
-                  >
-                    <StreetviewRoundedIcon fontSize="small" />
-                  </IconButton>{" "}
+                <div className="inline-block text-gray-700 text-left px-1 py-0 m-0">
                   <a
                     href={"/static/images/" + `${animal.id}` + ".jpg"}
                     target={"_blank"}
@@ -394,7 +417,11 @@ const Animals = (): JSX.Element => {
                       height="88"
                     />
                   </a>
-                  {animal.clase.description}&nbsp;
+                </div>
+
+                <div className="w-4/5 inline-block text-gray-700 text-left px-1 py-0 m-0">
+                  ID= {animal.id} &nbsp;
+                  {animal.clase.id}&nbsp; {animal.clase.description}&nbsp;
                   {animal.name}, &nbsp; Dueno=
                   {animal.owner.name}, &nbsp; Nacimiento=
                   {convertDate(animal.birthdate)} &nbsp;{" "}
@@ -447,6 +474,39 @@ const Animals = (): JSX.Element => {
                     </svg>
                   </button>
                 </div>
+
+                <div className="inline-block text-gray-700 text-left px-1 py-0 m-0">
+                  <IconButton
+                    onClick={() => seleccionarAnimal1(animal, "Mostrar")}
+                  >
+                    <StreetviewRoundedIcon fontSize="small" />
+                  </IconButton>{" "}
+                  <a
+                    href={"/static/images/" + `${animal.id}` + ".jpg"}
+                    target={"_blank"}
+                    rel="noreferrer"
+                  ></a>
+                </div>
+                <td className="border px-2 py-2">
+                  <Link
+                    href={`/animals/animalId/${encodeURIComponent(animal.id)}`}
+                    passHref
+                    legacyBehavior
+                  >
+                    <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold mr-1 py-1 px-1 rounded-full inline-flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 0 24 24"
+                        width="24px"
+                        fill="#000000"
+                      >
+                        <title>View</title>
+                        <path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"></path>
+                      </svg>
+                    </button>
+                  </Link>
+                </td>
               </div>
             ))
           : null}
@@ -570,9 +630,45 @@ const Animals = (): JSX.Element => {
               <div className="md:w-11/12 px-3 mb-6 md:mb-0">
                 <label
                   className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                  htmlFor="mother"
+                  htmlFor="mother_id"
                 >
                   Madre
+                </label>
+                <Controller
+                  name="mother_id"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { onChange, value, name, ref } }) => {
+                    //console.log("CurrentSelection", currentSelection);
+                    const handleSelectChange = (
+                      selectedOption: tipo_event_id | null
+                    ) => {
+                      onChange(selectedOption?.value);
+                    };
+                    return (
+                      <Select
+                        inputRef={ref}
+                        defaultValue={{ label: "Seleccione..", value: 0 }}
+                        options={vacas}
+                        value={vacas.find((c) => c.value === value)}
+                        name={name}
+                        onChange={(val) => {
+                          onChange(val.value);
+                          handleOnChange("mother_id", val.value);
+                        }}
+                      />
+                    );
+                  }}
+                />
+                {errors.mother_id && <p>This field is required</p>}{" "}
+              </div>
+
+              <div className="md:w-11/12 px-3 mb-6 md:mb-0">
+                <label
+                  className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                  htmlFor="mother"
+                >
+                  Nombre Madre
                 </label>
                 <input
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
@@ -631,7 +727,9 @@ const Animals = (): JSX.Element => {
                 >
                   Infos
                 </label>
-                <input
+                <textarea
+                  cols={100}
+                  rows={6}
                   className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                   placeholder="info"
                   defaultValue={animalAdd.info}

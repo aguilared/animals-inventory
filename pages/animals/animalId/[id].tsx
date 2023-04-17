@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
-import getBitaEventId from "../../../services/getBitaEventId";
+import getAnimalId from "../../../services/getAnimalId";
 import dayjs from "dayjs";
 import Interweave from "interweave";
 import { makeStyles } from "@material-ui/core/styles";
@@ -48,26 +48,32 @@ const convertDate1 = (date: any) => {
 const BitaEventCard = (props: any): JSX.Element => {
   const { query } = useRouter();
   const [bitacora_id, setBitacora_id] = useState("");
-  const [bitacoraDate, setBitacoraDate] = useState("");
-  const [author, setAuthor] = useState("");
+  const [name, setName] = useState("");
+  const [birthdate, setBirthdate] = useState("");
+  const [owner, setOwner] = useState("");
+  const [mother, setMother] = useState("");
+  const [alive, setAlive] = useState("");
   const [description, setDescription] = useState("");
-  const [tipoevent, setTipoEvent] = useState("");
+  const [claseanimal, setClaseanimal] = useState("");
   const [event, setEvent] = useState("");
   const [loading, setLoading] = useState(false);
 
-  console.log("Query", query);
-  console.log("QueryId", query.id);
+  //console.log("Query", query);
+  //console.log("QueryId", query.id);
   useEffect(
     function () {
       setLoading(true);
-      getBitaEventId(query.id).then((resp) => {
-        console.log("resp", resp);
-        setBitacora_id(resp.bitacora_id);
-        setBitacoraDate(resp.event_date);
-        setAuthor(resp.bitacora.author.name);
-        setTipoEvent(resp.tipoEvent.description);
-        setEvent(resp.event.description);
-        setDescription(resp.description);
+      getAnimalId(query.id).then((resp) => {
+        console.log("resp???", resp);
+        setBitacora_id(resp.id);
+        setName(resp.name);
+        setBirthdate(resp.birthdate);
+        setOwner(resp.owner.name);
+        setMother(resp.mother);
+        setAlive(resp.alive);
+        setClaseanimal(resp.clase.description);
+        setEvent(resp.claseid);
+        setDescription(resp.info);
         setLoading(false);
       });
     },
@@ -90,22 +96,32 @@ const BitaEventCard = (props: any): JSX.Element => {
         <CardContent sx={{ flex: "1 0 auto" }}>
           <div>
             <h3 className="text-2xl tahoma font-extrabold tracking-widest text-gray-500">
-              Reporte de un evento especifico de una Bitacora.
+              Detalle de Animal.
             </h3>
           </div>
           <Typography variant="h6" component="div">
-            ID Bitacora: {bitacora_id}, ID BitaEvent: {query.id}, Fecha:{" "}
-            {convertDate1(bitacoraDate)}
-          </Typography>{" "}
+            ID: {bitacora_id}
+            {",  Name: "}
+            {name}
+          </Typography>
           <Typography variant="h6" component="div">
-            Author: {author}
+            Birthdate: {birthdate}
+          </Typography>
+          <Typography variant="h6" component="div">
+            Dueno: {owner}
+          </Typography>
+          <Typography variant="h6" component="div">
+            Mother: {mother}
           </Typography>
           <Typography gutterBottom variant="h6" component="h2">
-            Tipo Event: {tipoevent}, Event: {event}
+            Tipo Animal: {claseanimal}
           </Typography>
-          <Typography variant="h6" color="textSecondary" component="h2">
+          <Typography gutterBottom variant="h6" component="h2">
+            Alive: {alive}
+          </Typography>
+          <Typography variant="subtitle1" color="textSecondary" component="div">
             <Interweave content={description} />
-          </Typography>
+          </Typography>{" "}
         </CardContent>
         <div className="container max-w-4xl m-auto px-4 mt-20">
           <Image
@@ -119,16 +135,16 @@ const BitaEventCard = (props: any): JSX.Element => {
           <Image
             src={"/static/images/" + `${query.id}` + "_1.jpg"}
             alt="Image"
-            width={1920 / 3}
-            height={1280 / 3}
+            width={1920 / 2}
+            height={1280 / 2}
           />
         </div>
         <div className="container max-w-4xl m-auto px-4 mt-20">
           <Image
             src={"/static/images/" + `${query.id}` + "_2.jpg"}
             alt="Image"
-            width={1920 / 3}
-            height={1280 / 3}
+            width={1920 / 2}
+            height={1280 / 2}
           />
         </div>
       </Card>
