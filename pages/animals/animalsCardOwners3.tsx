@@ -228,28 +228,56 @@ const AnimalsCardQuery: NextPage = () => {
                         align="left"
                         component="h2"
                       >
-                        Nombre: {animal.name}, Dueno: {animal.owner.name}
+                        Nombre: {animal.name}
                       </Typography>
-
                       <Typography
                         gutterBottom
                         variant="h6"
                         align="left"
                         component="h2"
                       >
-                        Nacimiento: {convertDate(animal.birthdate)}, Tipo
-                        animal: {animal.clase.description}
+                        Dueno: {animal.owner.name}
                       </Typography>
-
                       <Typography
                         gutterBottom
                         variant="h6"
                         align="left"
                         component="h2"
                       >
-                        Madre: {animal.mother}, Hierro: {animal.hierro}
+                        Nacimiento: {convertDate(animal.birthdate)}
                       </Typography>
-
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Tipo animal: {animal.clase.description}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Madre: {animal.mother}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Hierro: {animal.hierro}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        align="left"
+                        component="h2"
+                      >
+                        Date update: {convertDate(animal.updated_at)}
+                      </Typography>
                       <Typography
                         variant="h6"
                         color="textSecondary"
@@ -273,14 +301,6 @@ const AnimalsCardQuery: NextPage = () => {
                         onClick={() => console.log("CardActionArea clicked")}
                       />
                     </a>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      align="left"
-                      component="h2"
-                    >
-                      Date update: {convertDate(animal.updated_at)}
-                    </Typography>
                   </Card>
                 </div>
               </>

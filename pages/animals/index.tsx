@@ -336,7 +336,6 @@ const Animals = (): JSX.Element => {
       Add
     </button>
   ));
-  2;
 
   return (
     <Container>
@@ -419,12 +418,13 @@ const Animals = (): JSX.Element => {
                   </a>
                 </div>
 
-                <div className="w-4/5 inline-block text-gray-700 text-left px-1 py-0 m-0">
+                <div className="w-4/5 inline-block text-gray-700 text-left text-base px-1 py-0 m-0">
                   ID= {animal.id} &nbsp;
-                  {animal.clase.id}&nbsp; {animal.clase.description}&nbsp;
-                  {animal.name}, &nbsp; Dueno=
+                  {animal.clase.id}&nbsp; {animal.clase.description}:&nbsp;
+                  <b> {animal.name}</b>, &nbsp; Dueno=
                   {animal.owner.name}, &nbsp; Nacimiento=
-                  {convertDate(animal.birthdate)} &nbsp;{" "}
+                  {convertDate(animal.birthdate)} &nbsp; Info= {animal.info}{" "}
+                  &nbsp;
                 </div>
 
                 <div className="inline-block text-gray-700 text-right px-1 py-1 m-0">
