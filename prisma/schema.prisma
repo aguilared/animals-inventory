@@ -41,7 +41,7 @@ model Bitacora {
   author_id      Int? 
   created_at     DateTime  @default(now()) @map(name: "created_at")
   updated_at     DateTime  @updatedAt @map(name: "updated_at")
-  bita_events    BitaEvents[]  // A Bitacora can have many Bitaevents
+  bita_events    BitaEvents[]  // A Bitacora can have many Bitaeventsss
   @@map(name: "bitacoras")
 }
 
