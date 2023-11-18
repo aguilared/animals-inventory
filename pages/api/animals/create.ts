@@ -5,8 +5,9 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // console.log("El REQ", req);
-  // console.log("El REQBODY", req.body);
+  console.log("El REQ", req);
+  console.log("El REQBODY", req.body);
   const tipoEvent = await prisma.animal.create({ data: req.body });
+  console.log("RESP", tipoEvent);
   res.json(tipoEvent);
 }

@@ -56,6 +56,7 @@ model Animal {
   tipopart       String?
   hierro         String? 
   mother         String?
+  mother_id      Int? 
   info           String?
   alive          String?
   created_at     DateTime  @default(now()) @map(name: "created_at")
