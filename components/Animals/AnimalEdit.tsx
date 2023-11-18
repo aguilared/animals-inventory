@@ -151,8 +151,8 @@ const AnimalEdit = (props: any): JSX.Element => {
                 defaultValue={currentSelection}
                 name={name}
                 onChange={(val) => {
-                  onChange(val.value);
-                  handleOnChangeE("owner_id", val.value);
+                  onChange(val!.value);
+                  handleOnChangeE("owner_id", val!.value);
                 }}
               />
             );
