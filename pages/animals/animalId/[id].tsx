@@ -70,6 +70,7 @@ const BitaEventCard = (props: any): JSX.Element => {
         setBirthdate(resp.birthdate);
         setOwner(resp.owner.name);
         setMother(resp.mother);
+        setMother(resp.mother);
         setAlive(resp.alive);
         setClaseanimal(resp.clase.description);
         setEvent(resp.claseid);

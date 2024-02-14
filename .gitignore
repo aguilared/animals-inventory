@@ -36,5 +36,4 @@ yarn-error.log*
 
 
 # images
-
-# /public/static/images/
+/public/static/images/
